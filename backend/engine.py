@@ -375,7 +375,9 @@ def run_forensic_pipeline(input_data, pipeline="psych_timeline", hybrid_mode=Fal
         runner.load_run_save()
 
         print(f"[Pipeline] Pipeline execution complete")
-
+        print(f"[Pipeline] Pipeline execution complete")
+        print(f"[Pipeline] 📂 Intermediate outputs: /tmp/docetl_intermediates/extraction/")
+        
         # Read extraction results (map output)
         extraction_path = "/tmp/docetl_intermediates/extraction/extract_events.json"
         if os.path.exists(extraction_path):
