@@ -205,6 +205,106 @@ Note: Focus on medical-legal issues relevant to litigation, malpractice review, 
         }
         # Note: chronology and missing_records are assembled in Python (engine.py)
         # This avoids LLM hallucinations and ensures perfect chronological accuracy
+    },
+
+    "deposition_summary": {
+        "name": "Deposition Summary",
+        "pipeline_type": "deposition",
+        "use_gather": True,
+        "gather_config": {
+            "content_key": "content",
+            "doc_id_key": "doc_id",
+            "order_key": "page_num",
+            "peripheral_chunks": {
+                "previous": {"head": {"count": 3}},
+                "next": {"head": {"count": 3}}
+            }
+        },
+        "dataset_description": "deposition transcript pages from a legal proceeding",
+        "persona": "a legal analyst creating a comprehensive deposition summary table for attorney review",
+        "extraction_model": "gpt-4o",
+        "requires_llm_analysis": False,
+        "num_retries_on_validate_failure": 2,
+        "extraction_validation": [
+            # Allow empty fields when is_continuation=true; require both when it is a new topic
+            'output["is_continuation"] == True or (output["subject"] != "" and output["page_range"] != "")',
+        ],
+        "extraction_prompt": """You are analyzing a page of deposition testimony to decide ONE thing: does this page BEGIN a new topic, or is it a continuation of the topic already underway?
+
+PAGE NUMBER: {{ input.page_num }}
+
+TRANSCRIPT CONTENT:
+{{ input.content_rendered }}
+
+"--- Begin Main Chunk ---" to "--- End Main Chunk ---" is the primary page you are evaluating.
+The surrounding context shows adjacent pages.
+
+════════════════════════════════════
+WHAT IS A "TOPIC" IN DEPOSITION TESTIMONY?
+════════════════════════════════════
+
+A topic is a SPECIFIC NAMED SUBJECT — a particular person, relationship, document, location, event, or legal issue that counsel is asking about.
+
+Topics typically span 2-5 pages. Examples:
+
+- Witness's relationship with a specific person (e.g., his sibling, his attorney)
+- A specific document or legal instrument (e.g., the sixth version of the trust, the 2019 amendment)
+- A specific event or transaction (e.g., drum pickups from Otis Air Force Base, the burn pit at NECC)
+- A specific legal issue (e.g., disinheriting a family member, a prior lawsuit)
+- A specific time period or decision (e.g., when witness changed his will, what happened after the accident)
+- Counsel reading numbered paragraphs from a prior statement to the witness
+  (e.g., "Paragraph 7 says you dumped sludge weekly — does that sound right?") —
+  each paragraph covers a distinct factual subject and is its own topic, even
+  though all come from the same exhibit
+- A new exhibit being introduced for the first time, OR a new numbered paragraph
+  from a prior exhibit being read aloud to the witness, always begins a new topic
+
+A NEW TOPIC begins when the specific named subject shifts — even if the broad area of questioning (e.g., "family relationships") stays the same. Asking about Geoffrey is a different topic than asking about Morton. Asking about the 2019 trust amendment is a different topic than asking about the 2021 amendment.
+
+════════════════════════════════════
+YOUR DECISION RULE
+════════════════════════════════════
+
+Look at the PREVIOUS CONTEXT. Ask: "Is examining counsel still asking about the SAME specific named subject as the prior page?"
+
+If YES (drilling down on the same specific person, document, event, or issue) → is_continuation=true, all other fields empty string ""
+
+If NO (counsel has shifted to a different specific named person, document, event, location, or legal issue) → is_continuation=false, produce a full summary row
+
+DEFAULT: When in doubt whether the specific subject has shifted, err toward is_continuation=false and start a new row. Expect roughly 1 in 3 pages to start a new topic.
+
+If there is no previous context (first page of substantive testimony) → is_continuation=false, produce a row.
+
+════════════════════════════════════
+WHEN PRODUCING A ROW (is_continuation=false):
+════════════════════════════════════
+
+subject: Specific noun phrase, 3-7 words. Name the actual subject matter.
+  Good: "Drum Pickups from Otis Air Force Base", "Disinheriting Geoffrey", "Witness's CDL License", "Burn Pit Operations at NECC", "Sixth Version of the Trust"
+  Bad: "Witness Testimony", "Further Examination", "Background Information"
+
+page_range: This page number through where the topic ends based on next-page context.
+  Format: "50" (single page) or "50-54" (topic continues into next pages).
+
+summary: 150-300 word third-person narrative. Name the witness. Include specific facts, names, locations, dates, and documents referenced. Attribute statements to the witness directly. Preserve witness hedging exactly as spoken: "I don't recall," "probably," "I believe," "approximately." Never convert uncertain testimony into definitive statements.
+
+records: List of record IDs for every page covered by this topic, in "page-NNN" format (zero-padded to 3 digits).
+  Derive directly from your page_range. Example: page_range "55-57" → ["page-055", "page-056", "page-057"]. Example: page_range "69" → ["page-069"]
+
+Do not use meta-commentary or framing phrases ("This page covers", "The witness was asked about", "This section discusses"). Begin every summary with a direct factual statement.
+
+Return JSON with exactly these five fields: subject, page_range, summary, is_continuation, records
+""",
+        "output_schema": {
+            "subject": "string",
+            "page_range": "string",
+            "summary": "string",
+            "is_continuation": "boolean",
+            "records": "list[str]"
+        },
+        "analysis_schema": {
+            "summary_table": "list[dict]"
+        }
     }
 }
 
@@ -238,7 +338,7 @@ def list_pipelines():
     """
     # MVP: Only expose medical_chronology and psych_timeline
     # Other pipelines remain in codebase for future roadmap
-    MVP_PIPELINES = ["medical_chronology", "psych_timeline"]
+    MVP_PIPELINES = ["medical_chronology", "psych_timeline", "deposition_summary"]
 
     return [
         {"id": pipeline_id, "name": config["name"]}

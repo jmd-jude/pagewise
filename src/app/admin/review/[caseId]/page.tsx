@@ -118,7 +118,23 @@ interface SourcePanelProps {
   formatValue: (value: any) => string;
 }
 
+// Strip the 1–25 line-number column that docling preserves from deposition page margins.
+// Those lines are purely numeric and appear before the actual transcript text.
+function stripTranscriptLineNumbers(content: string): string {
+  const lines = content.split('\n');
+  let firstContentIdx = 0;
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].trim() && !/^\d+$/.test(lines[i].trim())) {
+      firstContentIdx = i;
+      break;
+    }
+  }
+  return lines.slice(firstContentIdx).join('\n').trim();
+}
+
 const SourcePanel = ({ records, onClose, formatKey, formatValue }: SourcePanelProps) => {
+  const isTranscriptRecord = (record: any) => record.doc_id === 'transcript' && record.content;
+
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
@@ -141,24 +157,37 @@ const SourcePanel = ({ records, onClose, formatKey, formatValue }: SourcePanelPr
         {records.map((record, idx) => (
           <div key={idx} className="border border-gray-200 rounded-lg overflow-hidden shadow-sm">
             {/* Record Header */}
-            <div className="bg-gray-50 px-3 py-2 border-b border-gray-200">
+            <div className="bg-gray-50 px-3 py-2 border-b border-gray-200 flex items-center justify-between">
               <code className="text-sm font-semibold text-blue-700">
                 {record.record_id || record.id || 'Unknown'}
               </code>
+              {record.page_num && (
+                <span className="text-xs text-gray-500 font-medium">Page {record.page_num}</span>
+              )}
             </div>
 
             {/* Record Content */}
-            <div className="p-3 bg-white space-y-3 text-sm">
-              {Object.entries(record).map(([key, value]) => (
-                <div key={key}>
-                  <div className="font-semibold text-gray-700 text-xs uppercase tracking-wide">
-                    {formatKey(key)}:
-                  </div>
-                  <div className="text-gray-900 whitespace-pre-wrap break-words mt-1">
-                    {formatValue(value)}
-                  </div>
+            <div className="p-3 bg-white text-sm">
+              {isTranscriptRecord(record) ? (
+                // Transcript-specific rendering: strip line numbers, show as readable dialogue
+                <div className="text-gray-800 text-xs leading-relaxed whitespace-pre-wrap font-mono bg-gray-50 rounded p-2 border border-gray-100">
+                  {stripTranscriptLineNumbers(record.content)}
                 </div>
-              ))}
+              ) : (
+                // Generic rendering for non-transcript records
+                <div className="space-y-3">
+                  {Object.entries(record).map(([key, value]) => (
+                    <div key={key}>
+                      <div className="font-semibold text-gray-700 text-xs uppercase tracking-wide">
+                        {formatKey(key)}:
+                      </div>
+                      <div className="text-gray-900 whitespace-pre-wrap break-words mt-1">
+                        {formatValue(value)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -1132,13 +1161,10 @@ export default function EnhancedCaseReview() {
           <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
             {chatMessages.length === 0 ? (
               <div className="text-center text-gray-500 text-sm mt-8">
-                <p className="mb-4">Ask questions about this case analysis</p>
+                <p className="mb-4">Ask questions about this document</p>
                 <div className="text-xs text-left space-y-1 bg-white p-3 rounded border border-gray-200">
                   <p className="font-semibold text-gray-700 mb-2">Example questions:</p>
-                  <p>• &quot;Summarize treatment gaps&quot;</p>
-                  <p>• &quot;Which provider appears most often?&quot;</p>
-                  <p>• &quot;List all medication changes&quot;</p>
-                  <p>• &quot;What contradictions were found?&quot;</p>
+                  <p>• &quot;Summarize this document with 3-5 key points&quot;</p>
                 </div>
               </div>
             ) : (

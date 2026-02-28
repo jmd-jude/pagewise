@@ -290,6 +290,40 @@ If you cannot find evidence of an issue in the actual records provided, do not r
             "expert_opinions_needed": []
         }
 
+def assemble_deposition_summary(extracted_records):
+    """
+    Assemble deposition summary table from per-page extraction results.
+    Filters continuation rows, sorts by start page, returns summary_table.
+    """
+    rows = [
+        r for r in extracted_records
+        if not r.get("is_continuation", False)
+        and r.get("subject", "").strip()
+        and r.get("page_range", "").strip()
+    ]
+
+    def get_start_page(row):
+        try:
+            return int(row.get("page_range", "0").split("-")[0].strip())
+        except Exception:
+            return 0
+
+    rows.sort(key=get_start_page)
+
+    summary_table = [
+        {
+            "subject": r["subject"],
+            "page_range": r["page_range"],
+            "summary": r["summary"],
+            "records": r.get("records", [])
+        }
+        for r in rows
+    ]
+
+    print(f"[Assembly] ✓ Deposition summary: {len(summary_table)} rows from {len(extracted_records)} pages")
+    return {"summary_table": summary_table}
+
+
 def run_forensic_pipeline(input_data, pipeline="psych_timeline", hybrid_mode=False):
     """
     Universal Forensic Discovery Pipeline
@@ -334,31 +368,10 @@ def run_forensic_pipeline(input_data, pipeline="psych_timeline", hybrid_mode=Fal
                 "path": input_path
             }
         },
-        "operations": [
-            {
-                "name": "extract_events",
-                "type": "map",
-                "model": extraction_model,  # Use pipeline-specific extraction model
-                "prompt": pipeline_config["extraction_prompt"],
-                "output": {
-                    "schema": pipeline_config["output_schema"]
-                },
-                "validate": pipeline_config.get("extraction_validation", []),
-                "num_retries_on_validate_failure": pipeline_config.get("num_retries_on_validate_failure", 2),
-                "skip_on_error": True,  # Continue processing even if some records fail
-                "pass_through": True
-            }
-            # Note: No reduce operation - chronology assembly happens in Python after extraction
-        ],
+        "operations": [],  # Populated below based on pipeline type
         "pipeline": {
-            "steps": [
-                {
-                    "name": "extraction",
-                    "input": "records",
-                    "operations": ["extract_events"]
-                }
-                # Note: No audit step - Python assembles chronology from extraction results
-            ],
+            "steps": [],  # Populated below based on pipeline type
+
             "output": {
                 "type": "file",
                 "path": "/tmp/forensic_analysis_output.json",
@@ -366,6 +379,48 @@ def run_forensic_pipeline(input_data, pipeline="psych_timeline", hybrid_mode=Fal
             }
         }
     }
+
+    # Build operations and pipeline steps based on pipeline type
+    if pipeline_config.get("use_gather"):
+        # Deposition pipeline: gather (add surrounding page context) then map (extract summary rows)
+        gather_op = {
+            "name": "add_context",
+            "type": "gather",
+            **pipeline_config["gather_config"]
+        }
+        map_op = {
+            "name": "extract_rows",
+            "type": "map",
+            "model": extraction_model,
+            "prompt": pipeline_config["extraction_prompt"],
+            "output": {"schema": pipeline_config["output_schema"]},
+            "validate": pipeline_config.get("extraction_validation", []),
+            "num_retries_on_validate_failure": pipeline_config.get("num_retries_on_validate_failure", 2),
+            "skip_on_error": True,
+            "pass_through": True
+        }
+        config["operations"] = [gather_op, map_op]
+        config["pipeline"]["steps"] = [
+            {"name": "deposition", "input": "records", "operations": ["add_context", "extract_rows"]}
+        ]
+    else:
+        # Standard medical/psych pipeline: single map operation
+        config["operations"] = [
+            {
+                "name": "extract_events",
+                "type": "map",
+                "model": extraction_model,
+                "prompt": pipeline_config["extraction_prompt"],
+                "output": {"schema": pipeline_config["output_schema"]},
+                "validate": pipeline_config.get("extraction_validation", []),
+                "num_retries_on_validate_failure": pipeline_config.get("num_retries_on_validate_failure", 2),
+                "skip_on_error": True,
+                "pass_through": True
+            }
+        ]
+        config["pipeline"]["steps"] = [
+            {"name": "extraction", "input": "records", "operations": ["extract_events"]}
+        ]
 
     try:
         print(f"[Pipeline] Analyzing {len(input_data)} records...")
@@ -375,11 +430,14 @@ def run_forensic_pipeline(input_data, pipeline="psych_timeline", hybrid_mode=Fal
         runner.load_run_save()
 
         print(f"[Pipeline] Pipeline execution complete")
-        print(f"[Pipeline] Pipeline execution complete")
-        print(f"[Pipeline] 📂 Intermediate outputs: /tmp/docetl_intermediates/extraction/")
-        
-        # Read extraction results (map output)
-        extraction_path = "/tmp/docetl_intermediates/extraction/extract_events.json"
+
+        # Read extraction results — deposition reads from final output, others from named intermediate
+        if pipeline_config.get("pipeline_type") == "deposition":
+            extraction_path = "/tmp/forensic_analysis_output.json"
+            print(f"[Pipeline] Reading deposition results from final output")
+        else:
+            extraction_path = "/tmp/docetl_intermediates/extraction/extract_events.json"
+            print(f"[Pipeline] 📂 Intermediate outputs: /tmp/docetl_intermediates/extraction/")
         if os.path.exists(extraction_path):
             with open(extraction_path, 'r') as f:
                 extracted_records = json.load(f)
@@ -395,139 +453,141 @@ def run_forensic_pipeline(input_data, pipeline="psych_timeline", hybrid_mode=Fal
                 else:
                     print(f"[Pipeline] ✓ Extraction integrity: {extracted_count}/{input_count} records")
 
-                # ============= PYTHON-BASED CHRONOLOGY ASSEMBLY =============
-                print(f"[Assembly] Assembling chronology from {extracted_count} extracted records...")
-
-                # Step 1: De-duplicate by record_id
-                seen_ids = set()
-                unique_records = []
-                duplicates_removed = 0
-
-                for record in extracted_records:
-                    record_id = record.get('record_id', '')
-                    if record_id and record_id in seen_ids:
-                        duplicates_removed += 1
-                        print(f"[Assembly] ⚠️  Removed duplicate record_id: {record_id}")
-                        continue
-                    seen_ids.add(record_id)
-                    unique_records.append(record)
-
-                if duplicates_removed > 0:
-                    print(f"[Assembly] Removed {duplicates_removed} duplicate(s)")
+                # ============= PYTHON-BASED ASSEMBLY =============
+                if pipeline_config.get("pipeline_type") == "deposition":
+                    analysis_output = assemble_deposition_summary(extracted_records)
                 else:
-                    print(f"[Assembly] ✓ No duplicates found")
+                    print(f"[Assembly] Assembling chronology from {extracted_count} extracted records...")
 
-                # Step 2: Sort by date
-                from datetime import datetime
-                invalid_dates = []  # Track records with invalid dates
+                    # Step 1: De-duplicate by record_id
+                    seen_ids = set()
+                    unique_records = []
+                    duplicates_removed = 0
 
-                def safe_parse_date(date_str):
-                    try:
-                        return datetime.strptime(date_str, '%Y-%m-%d')
-                    except:
-                        invalid_dates.append(date_str)
-                        print(f"[Assembly] ⚠️  Invalid date detected: '{date_str}'")
-                        return datetime.min  # Put invalid dates at the beginning
+                    for record in extracted_records:
+                        record_id = record.get('record_id', '')
+                        if record_id and record_id in seen_ids:
+                            duplicates_removed += 1
+                            print(f"[Assembly] ⚠️  Removed duplicate record_id: {record_id}")
+                            continue
+                        seen_ids.add(record_id)
+                        unique_records.append(record)
 
-                sorted_records = sorted(unique_records, key=lambda r: safe_parse_date(r.get('date', '')))
-                print(f"[Assembly] ✓ Sorted {len(sorted_records)} records by date")
+                    if duplicates_removed > 0:
+                        print(f"[Assembly] Removed {duplicates_removed} duplicate(s)")
+                    else:
+                        print(f"[Assembly] ✓ No duplicates found")
 
-                if invalid_dates:
-                    print(f"[Assembly] ⚠️  Found {len(invalid_dates)} invalid date(s)")
+                    # Step 2: Sort by date
+                    from datetime import datetime
+                    invalid_dates = []  # Track records with invalid dates
 
-                # Step 3: Calculate gaps (Python date math - no LLM hallucinations!)
-                missing_records = []
-                for i in range(len(sorted_records) - 1):
-                    try:
-                        date1 = datetime.strptime(sorted_records[i]['date'], '%Y-%m-%d')
-                        date2 = datetime.strptime(sorted_records[i+1]['date'], '%Y-%m-%d')
-                        gap_days = (date2 - date1).days
+                    def safe_parse_date(date_str):
+                        try:
+                            return datetime.strptime(date_str, '%Y-%m-%d')
+                        except:
+                            invalid_dates.append(date_str)
+                            print(f"[Assembly] ⚠️  Invalid date detected: '{date_str}'")
+                            return datetime.min  # Put invalid dates at the beginning
 
-                        if gap_days > 30:
-                            missing_records.append(
-                                f"Gap detected: {sorted_records[i]['date']} to {sorted_records[i+1]['date']} "
-                                f"({gap_days} days) - No documented care between visits"
-                            )
-                    except Exception as e:
-                        print(f"[Assembly] Warning: Could not calculate gap between records: {e}")
+                    sorted_records = sorted(unique_records, key=lambda r: safe_parse_date(r.get('date', '')))
+                    print(f"[Assembly] ✓ Sorted {len(sorted_records)} records by date")
 
-                print(f"[Assembly] ✓ Identified {len(missing_records)} gaps > 30 days")
+                    if invalid_dates:
+                        print(f"[Assembly] ⚠️  Found {len(invalid_dates)} invalid date(s)")
 
-                # Step 4: Format chronology strings using standard event schema
-                # All pipelines extract to: date, record_id, event_type, event_description, provider
-                # Optional fields (confidence, diagnosis) are pipeline-specific
-                chronology = []
-                for record in sorted_records:
-                    entry = (
-                        f"{record.get('date', 'Unknown')} [{record.get('record_id', 'Unknown')}]: "
-                        f"[{record.get('event_type', 'unknown')}] - "
-                        f"{record.get('event_description', 'No description')} "
-                        f"(Provider: {record.get('provider', 'Unknown')})"
-                    )
+                    # Step 3: Calculate gaps (Python date math - no LLM hallucinations!)
+                    missing_records = []
+                    for i in range(len(sorted_records) - 1):
+                        try:
+                            date1 = datetime.strptime(sorted_records[i]['date'], '%Y-%m-%d')
+                            date2 = datetime.strptime(sorted_records[i+1]['date'], '%Y-%m-%d')
+                            gap_days = (date2 - date1).days
 
-                    # Append optional fields if present (e.g., confidence for medical_chronology)
-                    if 'confidence' in record:
-                        entry += f" [Confidence: {record.get('confidence', 'unknown')}]"
+                            if gap_days > 30:
+                                missing_records.append(
+                                    f"Gap detected: {sorted_records[i]['date']} to {sorted_records[i+1]['date']} "
+                                    f"({gap_days} days) - No documented care between visits"
+                                )
+                        except Exception as e:
+                            print(f"[Assembly] Warning: Could not calculate gap between records: {e}")
 
-                    chronology.append(entry)
+                    print(f"[Assembly] ✓ Identified {len(missing_records)} gaps > 30 days")
 
-                print(f"[Assembly] ✓ Formatted {len(chronology)} chronology entries")
-                print(f"[Assembly] ✓ Final count: {len(chronology)} entries from {extracted_count} extracted records")
+                    # Step 4: Format chronology strings using standard event schema
+                    # All pipelines extract to: date, record_id, event_type, event_description, provider
+                    # Optional fields (confidence, diagnosis) are pipeline-specific
+                    chronology = []
+                    for record in sorted_records:
+                        entry = (
+                            f"{record.get('date', 'Unknown')} [{record.get('record_id', 'Unknown')}]: "
+                            f"[{record.get('event_type', 'unknown')}] - "
+                            f"{record.get('event_description', 'No description')} "
+                            f"(Provider: {record.get('provider', 'Unknown')})"
+                        )
 
-                # Step 5: Flag records with invalid dates as documentation gaps
-                red_flags = []
-                contradictions = []
-                expert_opinions_needed = []
+                        # Append optional fields if present (e.g., confidence for medical_chronology)
+                        if 'confidence' in record:
+                            entry += f" [Confidence: {record.get('confidence', 'unknown')}]"
 
-                # Check if pipeline expects structured red_flags
-                analysis_schema = pipeline_config.get("analysis_schema", {})
-                use_structured_red_flags = analysis_schema.get("red_flags") == "list[dict]"
+                        chronology.append(entry)
 
-                # Add invalid date records to red flags
-                for record in sorted_records:
-                    if record.get('date', '') in invalid_dates:
-                        if use_structured_red_flags:
-                            # Structured object format
-                            red_flags.append({
-                                "category": "documentation_gap",
-                                "issue": f"Record missing valid date '{record.get('date', '')}'",
-                                "records": [record.get('record_id', 'Unknown')],
-                                "legal_relevance": "high"
-                            })
-                        else:
-                            # Legacy pipe-delimited string format
-                            red_flags.append(
-                                f"Category: documentation_gap | Issue: Record missing valid date '{record.get('date', '')}' | "
-                                f"Record: {record.get('record_id', 'Unknown')} | Legal Relevance: high"
-                            )
+                    print(f"[Assembly] ✓ Formatted {len(chronology)} chronology entries")
+                    print(f"[Assembly] ✓ Final count: {len(chronology)} entries from {extracted_count} extracted records")
 
-                if red_flags:
-                    print(f"[Assembly] ⚠️  Added {len(red_flags)} documentation gap(s) to red flags")
+                    # Step 5: Flag records with invalid dates as documentation gaps
+                    red_flags = []
+                    contradictions = []
+                    expert_opinions_needed = []
 
-                # Step 6: Optional LLM analysis for deeper insights (if pipeline requires it)
-                if pipeline_config.get("requires_llm_analysis", False):
-                    print(f"[Pipeline] Running LLM analysis with {analysis_model}...")
-                    analysis_results = analyze_records_for_red_flags(sorted_records, analysis_model, pipeline_config)
+                    # Check if pipeline expects structured red_flags
+                    analysis_schema = pipeline_config.get("analysis_schema", {})
+                    use_structured_red_flags = analysis_schema.get("red_flags") == "list[dict]"
 
-                    # Merge LLM-generated insights with existing red flags
-                    llm_red_flags = analysis_results.get("red_flags", [])
-                    contradictions = analysis_results.get("contradictions", [])
-                    expert_opinions_needed = analysis_results.get("expert_opinions_needed", [])
+                    # Add invalid date records to red flags
+                    for record in sorted_records:
+                        if record.get('date', '') in invalid_dates:
+                            if use_structured_red_flags:
+                                # Structured object format
+                                red_flags.append({
+                                    "category": "documentation_gap",
+                                    "issue": f"Record missing valid date '{record.get('date', '')}'",
+                                    "records": [record.get('record_id', 'Unknown')],
+                                    "legal_relevance": "high"
+                                })
+                            else:
+                                # Legacy pipe-delimited string format
+                                red_flags.append(
+                                    f"Category: documentation_gap | Issue: Record missing valid date '{record.get('date', '')}' | "
+                                    f"Record: {record.get('record_id', 'Unknown')} | Legal Relevance: high"
+                                )
 
-                    if llm_red_flags:
-                        red_flags.extend(llm_red_flags)
-                        print(f"[Analysis] ✓ Added {len(llm_red_flags)} LLM-detected red flag(s)")
-                else:
-                    print(f"[Pipeline] Skipping LLM analysis: Pipeline uses deterministic Python assembly only")
+                    if red_flags:
+                        print(f"[Assembly] ⚠️  Added {len(red_flags)} documentation gap(s) to red flags")
 
-                # Assemble final output
-                analysis_output = {
-                    "chronology": chronology,
-                    "missing_records": missing_records,
-                    "red_flags": red_flags,
-                    "contradictions": contradictions,  # LLM-detected contradictions (if hybrid mode)
-                    "expert_opinions_needed": expert_opinions_needed  # Areas needing expert review (if hybrid mode)
-                }
+                    # Step 6: Optional LLM analysis for deeper insights (if pipeline requires it)
+                    if pipeline_config.get("requires_llm_analysis", False):
+                        print(f"[Pipeline] Running LLM analysis with {analysis_model}...")
+                        analysis_results = analyze_records_for_red_flags(sorted_records, analysis_model, pipeline_config)
+
+                        # Merge LLM-generated insights with existing red flags
+                        llm_red_flags = analysis_results.get("red_flags", [])
+                        contradictions = analysis_results.get("contradictions", [])
+                        expert_opinions_needed = analysis_results.get("expert_opinions_needed", [])
+
+                        if llm_red_flags:
+                            red_flags.extend(llm_red_flags)
+                            print(f"[Analysis] ✓ Added {len(llm_red_flags)} LLM-detected red flag(s)")
+                    else:
+                        print(f"[Pipeline] Skipping LLM analysis: Pipeline uses deterministic Python assembly only")
+
+                    analysis_output = {
+                        "chronology": chronology,
+                        "missing_records": missing_records,
+                        "red_flags": red_flags,
+                        "contradictions": contradictions,
+                        "expert_opinions_needed": expert_opinions_needed
+                    }
 
                 # Aggregate cost data from LiteLLM callbacks (separate extraction and analysis)
                 extraction_cost = 0.0
