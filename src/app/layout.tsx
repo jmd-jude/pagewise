@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FPA Med AI",
+  title: "PageWise™",
   description: "Legal-grade forensic data discovery and entity resolution",
 };
 

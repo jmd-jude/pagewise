@@ -18,7 +18,7 @@ export default function Header({ showNavigation = true }: HeaderProps) {
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
             <h1 className="text-xl font-semibold tracking-tight text-gray-900">
-              ChronoScope - Medical Chronologies by FPA, LP
+              PageWise™
             </h1>
           </Link>
 

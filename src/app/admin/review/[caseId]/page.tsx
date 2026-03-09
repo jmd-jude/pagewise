@@ -739,6 +739,50 @@ export default function EnhancedCaseReview() {
     );
   };
 
+  const renderDepositionSummaryRow = (item: any, idx: number, sectionKey: string) => (
+    <div key={idx} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+      <div className="flex items-start gap-3">
+        <div className="flex-shrink-0 mt-1">
+          <FileText className="w-5 h-5 text-blue-500" />
+        </div>
+        <div className="flex-1 space-y-2">
+          <div className="flex items-start gap-3">
+            <h4 className="text-sm font-semibold text-gray-900 flex-1">{item.subject}</h4>
+            <span className="flex-shrink-0 inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+              pp. {item.page_range}
+            </span>
+          </div>
+          <p className="text-sm text-gray-700 leading-relaxed">{item.summary}</p>
+          {item.records && renderRecordBadges(item.records)}
+
+          {hasComment(sectionKey, idx) && (
+            <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 text-sm mt-2">
+              <div className="flex items-start gap-2">
+                <MessageCircle className="w-4 h-4 text-purple-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <div className="font-semibold text-purple-700 mb-1 text-xs">Expert Comment:</div>
+                  <div className="text-gray-700 whitespace-pre-wrap">{getComment(sectionKey, idx)}</div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+        <button
+          onClick={() => openCommentModal(sectionKey, idx)}
+          className={`flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+            hasComment(sectionKey, idx)
+              ? 'bg-purple-100 text-purple-700 border border-purple-300 hover:bg-purple-200'
+              : 'bg-gray-100 text-gray-600 border border-gray-300 hover:bg-gray-200'
+          }`}
+          title={hasComment(sectionKey, idx) ? 'Edit comment' : 'Add comment'}
+        >
+          <MessageCircle className="w-4 h-4 inline mr-1" />
+          {hasComment(sectionKey, idx) ? `${getComment(sectionKey, idx).length > 0 ? '1' : ''}` : ''}
+        </button>
+      </div>
+    </div>
+  );
+
   const renderGenericStructuredItem = (item: any, idx: number, sectionKey: string) => (
     <div key={idx} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
       <div className="flex items-start gap-3">
@@ -830,6 +874,7 @@ export default function EnhancedCaseReview() {
     if (sectionKey === 'contradictions') icon = <AlertCircle className="w-5 h-5" />;
     if (sectionKey === 'red_flags') icon = <AlertTriangle className="w-5 h-5" />;
     if (sectionKey === 'expert_opinions_needed') icon = <User className="w-5 h-5" />;
+    if (sectionKey === 'summary_table') icon = <FileText className="w-5 h-5" />;
 
     const isCollapsed = isSectionCollapsed(sectionKey);
 
@@ -866,6 +911,9 @@ export default function EnhancedCaseReview() {
             }
             if (sectionKey === 'chronology') {
               return renderChronologyItem(item, idx, sectionKey, items.length);
+            }
+            if (sectionKey === 'summary_table') {
+              return renderDepositionSummaryRow(item, idx, sectionKey);
             }
             // Fallback: use generic structured renderer for unknown structured types
             if (isStructured) {

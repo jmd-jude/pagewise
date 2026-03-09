@@ -474,7 +474,7 @@ export default function ForensicDiscovery() {
         <div className="max-w-7xl mx-auto px-6 py-6 text-center text-sm text-gray-600">
           <p>ChronoScope - Medical Chronologies</p>
           <p className="mt-1 font-[var(--font-geist-mono)] text-xs text-gray-500">
-            Powered by DocETL • FPAMed
+            PageWise™ • Powered by DocETL
           </p>
         </div>
       </footer>
