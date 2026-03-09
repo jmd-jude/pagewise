@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-InsightStream Forensic is a legal-grade forensic analysis system that processes medical and legal documents to detect contradictions, identify treatment gaps, evaluate compliance, and generate comprehensive timelines and summaries. It combines a Next.js frontend with a FastAPI backend powered by DocETL for LLM-based document analysis.
+PageWise™ Forensic is a legal-grade forensic analysis system that processes medical and legal documents to detect contradictions, identify treatment gaps, evaluate compliance, and generate comprehensive timelines and summaries. It combines a Next.js frontend with a FastAPI backend powered by DocETL for LLM-based document analysis.
 
 **Focus**: Medical-legal discovery with pipelines ranging from basic timeline construction to deposition summarization and expert witness packages.
 
