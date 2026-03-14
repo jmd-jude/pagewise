@@ -1,4 +1,4 @@
-# Engineering Brief — PageWise™
+# Engineering Notes — PageWise™
 *Internal document — not for client distribution*
 
 ---
