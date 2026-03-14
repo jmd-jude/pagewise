@@ -1,0 +1,154 @@
+{
+  "id": "20260115_121152",
+  "customer_name": "Confidential Client",
+  "customer_email": "",
+  "pipeline": "medical_chronology",
+  "records_count": 2,
+  "uploaded_at": "2026-01-15T12:11:52.349065",
+  "status": "pending_review",
+  "estimated_cost_per_page": 0.15,
+  "analysis": {
+    "chronology": [
+      "2024-01-15 [2024-01-15]: [visit] - Psychiatric evaluation conducted for patient John Doe who presented with symptoms of depression. Prescribed Sertraline 50mg. (Provider: Psychiatric evaluation) [Confidence: high]",
+      "2024-02-10 [2024-02-10]: [visit] - Follow-up visit. Patient reports improvement with medication and an increase in dose to 100mg. (Provider: Unknown) [Confidence: medium]"
+    ],
+    "missing_records": [],
+    "red_flags": [
+      {
+        "category": "Documentation Gaps",
+        "issue": "Provider identity not documented in follow-up visit. Medical record lacks identification of treating physician or healthcare provider responsible for medication dosage increase.",
+        "records": [
+          "2024-02-10"
+        ],
+        "legal_relevance": "high"
+      },
+      {
+        "category": "Documentation Gaps",
+        "issue": "No documented diagnosis in follow-up visit despite ongoing psychiatric treatment and medication adjustment. Continuation of treatment without documented diagnostic assessment or confirmation.",
+        "records": [
+          "2024-02-10"
+        ],
+        "legal_relevance": "medium"
+      },
+      {
+        "category": "Standard of Care",
+        "issue": "Doubling of Sertraline dose (50mg to 100mg) within 26 days. Standard psychiatric practice typically recommends 4-6 weeks before dose adjustment to allow adequate time to assess therapeutic response and side effects.",
+        "records": [
+          "2024-01-15",
+          "2024-02-10"
+        ],
+        "legal_relevance": "medium"
+      },
+      {
+        "category": "Documentation Gaps",
+        "issue": "No documentation of objective assessment measures, side effect monitoring, or clinical rationale for dose increase. Record only states patient 'reports improvement' without quantifiable metrics or clinical evaluation.",
+        "records": [
+          "2024-02-10"
+        ],
+        "legal_relevance": "medium"
+      }
+    ],
+    "contradictions": [],
+    "expert_opinions_needed": [
+      {
+        "topic": "Appropriateness of Sertraline Dosing Timeline",
+        "reason": "Expert psychiatric opinion needed to evaluate whether increasing Sertraline from 50mg to 100mg after only 26 days meets standard of care, given typical recommendations for 4-6 week intervals before dose adjustments.",
+        "records": [
+          "2024-01-15",
+          "2024-02-10"
+        ]
+      },
+      {
+        "topic": "Adequacy of Clinical Documentation for Medication Management",
+        "reason": "Expert opinion needed to assess whether the documentation meets standard of care requirements for psychiatric medication management, including assessment of therapeutic response, side effects, and clinical justification for dose changes.",
+        "records": [
+          "2024-01-15",
+          "2024-02-10"
+        ]
+      }
+    ]
+  },
+  "analyzed_at": "2026-01-15T12:12:07.418001",
+  "edits": {
+    "chronology": [
+      "2024-01-15 [2024-01-15]: [visit] - Psychiatric evaluation conducted for patient John Doe who presented with symptoms of depression. Prescribed Sertraline 50mg. (Provider: Psychiatric evaluation) [Confidence: high]",
+      "2024-02-10 [2024-02-10]: [visit] - Follow-up visit. Patient reports improvement with medication and an increase in dose to 100mg. (Provider: Unknown) [Confidence: medium]"
+    ],
+    "missing_records": [],
+    "red_flags": [
+      {
+        "category": "Documentation Gaps",
+        "issue": "Provider identity not documented in follow-up visit. Medical record lacks identification of treating physician or healthcare provider responsible for medication dosage increase.",
+        "records": [
+          "2024-02-10"
+        ],
+        "legal_relevance": "high"
+      },
+      {
+        "category": "Documentation Gaps",
+        "issue": "No documented diagnosis in follow-up visit despite ongoing psychiatric treatment and medication adjustment. Continuation of treatment without documented diagnostic assessment or confirmation.",
+        "records": [
+          "2024-02-10"
+        ],
+        "legal_relevance": "medium"
+      },
+      {
+        "category": "Standard of Care",
+        "issue": "Doubling of Sertraline dose (50mg to 100mg) within 26 days. Standard psychiatric practice typically recommends 4-6 weeks before dose adjustment to allow adequate time to assess therapeutic response and side effects.",
+        "records": [
+          "2024-01-15",
+          "2024-02-10"
+        ],
+        "legal_relevance": "medium"
+      },
+      {
+        "category": "Documentation Gaps",
+        "issue": "No documentation of objective assessment measures, side effect monitoring, or clinical rationale for dose increase. Record only states patient 'reports improvement' without quantifiable metrics or clinical evaluation.",
+        "records": [
+          "2024-02-10"
+        ],
+        "legal_relevance": "medium"
+      }
+    ],
+    "contradictions": [],
+    "expert_opinions_needed": [
+      {
+        "topic": "Appropriateness of Sertraline Dosing Timeline",
+        "reason": "Expert psychiatric opinion needed to evaluate whether increasing Sertraline from 50mg to 100mg after only 26 days meets standard of care, given typical recommendations for 4-6 week intervals before dose adjustments.",
+        "records": [
+          "2024-01-15",
+          "2024-02-10"
+        ]
+      },
+      {
+        "topic": "Adequacy of Clinical Documentation for Medication Management",
+        "reason": "Expert opinion needed to assess whether the documentation meets standard of care requirements for psychiatric medication management, including assessment of therapeutic response, side effects, and clinical justification for dose changes.",
+        "records": [
+          "2024-01-15",
+          "2024-02-10"
+        ]
+      }
+    ]
+  },
+  "original_records": [
+    {
+      "source": "case_file_1.pdf",
+      "text": "Psychiatric evaluation conducted January 15, 2024. Patient John Doe presented with symptoms of depression. Prescribed Sertraline 50mg."
+    },
+    {
+      "source": "progress_note.pdf",
+      "text": "2/10/2024 - Follow-up visit. Patient reports improvement with medication. Increase dose to 100mg."
+    }
+  ],
+  "actual_cost": 0.07076385,
+  "cost_per_page": 0.035381925,
+  "cost_breakdown": {
+    "extraction_model": "gpt-4o-mini",
+    "analysis_model": "claude-sonnet-4-5-20250929",
+    "extraction_cost": 0.0,
+    "analysis_cost": 0.07076385,
+    "total_cost": 0.07076385,
+    "total_tokens": 11896,
+    "records_processed": 2
+  }
+}

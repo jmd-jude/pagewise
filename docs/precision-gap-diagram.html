@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Precision Gap — Architecture Diagram</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --ink: #1a1a18;
+    --paper: #f5f2eb;
+    --rule: #c8c0b0;
+    --accent: #b34a2a;
+    --accent-light: #e8d5ce;
+    --muted: #6b6560;
+    --success: #2a5c3f;
+    --success-light: #d4e8dc;
+    --warn: #7a4a1a;
+    --warn-light: #f0e0c8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    padding: 48px 32px;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 20px;
+    margin-bottom: 48px;
+  }
+
+  .header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* TWO-COLUMN COMPARISON */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-bottom: 48px;
+    border: 1.5px solid var(--ink);
+  }
+
+  .col {
+    padding: 0;
+  }
+
+  .col:first-child {
+    border-right: 1.5px solid var(--ink);
+  }
+
+  .col-header {
+    padding: 14px 20px;
+    border-bottom: 1.5px solid var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .col-header.enterprise { background: var(--warn-light); }
+  .col-header.pipeline { background: var(--success-light); }
+
+  .col-header .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .col-header .label.enterprise { color: var(--warn); }
+  .col-header .label.pipeline { color: var(--success); }
+
+  .col-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    font-weight: 400;
+  }
+
+  .col-body {
+    padding: 24px 20px;
+  }
+
+  /* ENTERPRISE FLOW */
+  .oracle-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .doc-stack {
+    width: 100%;
+    background: white;
+    border: 1.5px solid var(--rule);
+    border-radius: 2px;
+    padding: 12px 14px;
+    position: relative;
+    margin-bottom: 0;
+  }
+
+  .doc-stack::before, .doc-stack::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border: 1.5px solid var(--rule);
+    border-radius: 2px;
+  }
+
+  .doc-stack::before {
+    top: -4px; left: 4px; right: -4px; bottom: 4px;
+    z-index: -1;
+  }
+
+  .doc-stack::after {
+    top: -8px; left: 8px; right: -8px; bottom: 8px;
+    z-index: -2;
+  }
+
+  .doc-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .doc-size {
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .doc-pages {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 0;
+    gap: 2px;
+  }
+
+  .arrow-line {
+    width: 1.5px;
+    height: 20px;
+    background: var(--rule);
+  }
+
+  .arrow-head {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid var(--rule);
+  }
+
+  .arrow-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .ai-box {
+    width: 100%;
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    padding: 12px 14px;
+    text-align: center;
+  }
+
+  .ai-box .ai-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .ai-box.warn { background: var(--warn-light); border-color: var(--warn); }
+  .ai-box.warn .ai-label { color: var(--warn); }
+
+  .ai-box.ok { background: var(--success-light); border-color: var(--success); }
+  .ai-box.ok .ai-label { color: var(--success); }
+
+  .ai-box .ai-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .attention-bar-wrapper {
+    width: 100%;
+    margin: 8px 0 4px;
+  }
+
+  .attention-bar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .attention-bar {
+    height: 8px;
+    border-radius: 1px;
+    background: linear-gradient(to right, var(--warn) 0%, var(--warn) 35%, #d4975a 60%, #e8d5ce 100%);
+    border: 1px solid rgba(122,74,26,0.3);
+  }
+
+  .attention-bar-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3px;
+  }
+
+  .attention-bar-labels span {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: var(--muted);
+  }
+
+  .output-box {
+    width: 100%;
+    border: 1.5px solid var(--rule);
+    border-radius: 2px;
+    padding: 10px 14px;
+    background: white;
+  }
+
+  .output-box .out-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+
+  .coverage-meter {
+    margin-bottom: 6px;
+  }
+
+  .coverage-meter-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3px;
+  }
+
+  .coverage-meter-label span {
+    font-size: 11px;
+  }
+
+  .coverage-meter-label .pct {
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+  }
+
+  .coverage-meter-label .pct.bad { color: var(--accent); }
+  .coverage-meter-label .pct.good { color: var(--success); }
+
+  .bar-track {
+    height: 6px;
+    background: var(--rule);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 1px;
+  }
+
+  .bar-fill.bad { background: var(--accent); }
+  .bar-fill.good { background: var(--success); }
+
+  /* PIPELINE FLOW */
+  .pipeline-stages {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .stage {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .stage:last-child { border-bottom: none; }
+
+  .stage-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--success);
+    min-width: 20px;
+    padding-top: 1px;
+  }
+
+  .stage-content {}
+
+  .stage-title {
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .stage-desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .stage-chips {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+  }
+
+  .chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 1px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .chip.ai { background: var(--success-light); color: var(--success); border: 1px solid var(--success); }
+  .chip.code { background: #e8eef5; color: #2a4a6b; border: 1px solid #9ab0c8; }
+
+  .chunk-visual {
+    display: flex;
+    gap: 3px;
+    margin: 6px 0 2px;
+    align-items: flex-end;
+  }
+
+  .chunk {
+    flex: 1;
+    background: var(--success-light);
+    border: 1px solid var(--success);
+    border-radius: 1px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: var(--success);
+  }
+
+  .chunk.active {
+    background: var(--success);
+    color: white;
+    height: 36px;
+  }
+
+  .chunk-plus {
+    font-size: 10px;
+    color: var(--rule);
+    align-self: center;
+  }
+
+  /* RESULT ROW */
+  .result-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1.5px solid var(--ink);
+    border-top: none;
+    margin-bottom: 48px;
+  }
+
+  .result-cell {
+    padding: 16px 20px;
+  }
+
+  .result-cell:first-child {
+    border-right: 1.5px solid var(--ink);
+  }
+
+  .result-cell .r-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .result-stats {
+    display: flex;
+    gap: 20px;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px;
+    line-height: 1;
+  }
+
+  .stat-num.bad { color: var(--accent); }
+  .stat-num.good { color: var(--success); }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* PRINCIPLE ROW */
+  .principles {
+    border-top: 2px solid var(--ink);
+    padding-top: 28px;
+    margin-bottom: 16px;
+  }
+
+  .principles-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .principle-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+  }
+
+  .principle {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .principle-icon {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .principle-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+  }
+
+  .principle-body {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .footnote {
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+    margin-top: 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+
+  @media (max-width: 620px) {
+    .comparison, .result-row { grid-template-columns: 1fr; }
+    .col:first-child { border-right: none; border-bottom: 1.5px solid var(--ink); }
+    .result-cell:first-child { border-right: none; border-bottom: 1.5px solid var(--ink); }
+    .principle-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-label">Architecture Overview</div>
+    <h1>Two Approaches to Document Extraction — <em>Why the Method Determines the Result</em></h1>
+  </div>
+
+  <div class="comparison">
+    <!-- ENTERPRISE COLUMN -->
+    <div class="col">
+      <div class="col-header enterprise">
+        <div>
+          <div class="label enterprise">Approach A</div>
+          <h2>Enterprise AI — Single-Pass Oracle</h2>
+        </div>
+      </div>
+      <div class="col-body">
+        <div class="oracle-flow">
+          <div class="doc-stack">
+            <div class="doc-label">Input</div>
+            <div class="doc-size">Full transcript, 300 pages</div>
+            <div class="doc-pages">~150,000 tokens, delivered at once</div>
+          </div>
+
+          <div class="arrow">
+            <div class="arrow-line"></div>
+            <div class="arrow-head"></div>
+            <div class="arrow-label">single prompt</div>
+          </div>
+
+          <div class="ai-box warn">
+            <div class="ai-label">AI Model — Single Pass</div>
+            <div class="attention-bar-wrapper">
+              <div class="attention-bar-label">Attention distribution</div>
+              <div class="attention-bar"></div>
+              <div class="attention-bar-labels">
+                <span>Page 1 — strong</span>
+                <span>Page 300 — fades</span>
+              </div>
+            </div>
+            <div class="ai-desc">Model must hold entire document in working memory simultaneously. Attention dilutes across 300 pages; prominent early topics dominate.</div>
+          </div>
+
+          <div class="arrow">
+            <div class="arrow-line"></div>
+            <div class="arrow-head"></div>
+          </div>
+
+          <div class="output-box">
+            <div class="out-label">Output</div>
+            <div class="coverage-meter">
+              <div class="coverage-meter-label">
+                <span>Coverage</span>
+                <span class="pct bad">~60%</span>
+              </div>
+              <div class="bar-track"><div class="bar-fill bad" style="width:60%"></div></div>
+            </div>
+            <div style="font-size:11px; color:var(--muted); line-height:1.5;">Fluent. Organized. Missing middle-transcript testimony on care concerns, financial matters, medications, property issues — consistently and silently.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PIPELINE COLUMN -->
+    <div class="col">
+      <div class="col-header pipeline">
+        <div>
+          <div class="label pipeline">Approach B</div>
+          <h2>Structured Pipeline — AI as Step, Not Oracle</h2>
+        </div>
+      </div>
+      <div class="col-body">
+        <div class="pipeline-stages">
+
+          <div class="stage">
+            <div class="stage-num">01</div>
+            <div class="stage-content">
+              <div class="stage-title">Segment</div>
+              <div class="stage-desc">Document divided into natural units — one page at a time. Each unit is within the model's reliable focus range.</div>
+              <div class="chunk-visual">
+                <div class="chunk">p.1</div>
+                <div class="chunk">p.2</div>
+                <div class="chunk active">p.3</div>
+                <div class="chunk">p.4</div>
+                <div class="chunk">p.5</div>
+                <span class="chunk-plus">···</span>
+              </div>
+              <div class="stage-chips"><span class="chip code">Software</span></div>
+            </div>
+          </div>
+
+          <div class="stage">
+            <div class="stage-num">02</div>
+            <div class="stage-content">
+              <div class="stage-title">Contextualize</div>
+              <div class="stage-desc">Each page is sent with adjacent pages as context — the model sees a window, not an island. Enough to understand continuity, not enough to dilute attention.</div>
+              <div class="stage-chips"><span class="chip code">Software</span></div>
+            </div>
+          </div>
+
+          <div class="stage">
+            <div class="stage-num">03</div>
+            <div class="stage-content">
+              <div class="stage-title">Extract per unit</div>
+              <div class="stage-desc">For each page: one focused question. Does a new topic begin here? If so, describe it and record the page range. Model operates on bounded, verifiable input.</div>
+              <div class="stage-chips"><span class="chip ai">AI — focused task</span></div>
+            </div>
+          </div>
+
+          <div class="stage">
+            <div class="stage-num">04</div>
+            <div class="stage-content">
+              <div class="stage-title">Assemble in code</div>
+              <div class="stage-desc">Outputs collected, sorted, deduplicated, and formatted with page-level citations by software. No AI in the assembly step — deterministic and auditable.</div>
+              <div class="stage-chips"><span class="chip code">Software — no AI</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT ROW -->
+  <!-- <div class="result-row">
+    <div class="result-cell">
+      <div class="r-label">Approach A result — 216-page deposition</div>
+      <div class="result-stats">
+        <div class="stat">
+          <div class="stat-num bad">60</div>
+          <div class="stat-label">topical entries produced</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num bad">~60%</div>
+          <div class="stat-label">estimated coverage</div>
+        </div>
+      </div>
+    </div>
+    <div class="result-cell">
+      <div class="r-label">Approach B result — same document</div>
+      <div class="result-stats">
+        <div class="stat">
+          <div class="stat-num good">77</div>
+          <div class="stat-label">topical entries produced</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num good">~100%</div>
+          <div class="stat-label">verified coverage</div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- PRINCIPLES -->
+  <div class="principles">
+    <div class="principles-label">Mapping to expert witness work</div>
+    <div class="principle-row">
+      <div class="principle">
+        <div class="principle-icon">◎</div>
+        <div class="principle-title">Substantive Omission</div>
+        <div class="principle-body">Enterprise AI doesn't flag what it skips. The output looks complete. The missing testimony on medication changes or property transfers appears nowhere — until opposing counsel asks.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-icon">◎</div>
+        <div class="principle-title">Verifiable citations</div>
+        <div class="principle-body">Each entry in the pipeline output cites the exact page range in the original transcript. Every claim is traceable, every gap is visible, every statement is defensible.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-icon">◎</div>
+        <div class="principle-title">Hallucination floor</div>
+        <div class="principle-body">When the model sees one page at a time, it has nowhere to fabricate from. It either finds a topic or it doesn't. The bounded context eliminates the conditions under which confabulation occurs.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

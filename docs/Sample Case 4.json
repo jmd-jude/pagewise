@@ -1,0 +1,404 @@
+[
+  {
+    "date": "2023-01-18",
+    "record_id": "MRN-2023-401",
+    "provider": "Dr. Michael Anderson, MD",
+    "facility": "Occupational Health Services",
+    "record_type": "Initial Occupational Health Evaluation",
+    "chief_complaint": "Psychiatric evaluation following workplace incident",
+    "assessment": "42-year-old male warehouse supervisor referred by workers' compensation carrier for psychiatric evaluation following workplace incident on 12/15/2022. Patient witnessed fatal forklift accident involving coworker at distribution center where he has worked for 8 years. Patient was first on scene, attempted CPR, coworker pronounced dead at scene. Patient has not returned to work since incident.\n\nPATIENT REPORTS: Significant distress since incident. Intrusive memories of accident scene, recurring nightmares 4-5 nights per week. Avoids driving near workplace. Hypervigilant in public spaces. Describes persistent low mood, anhedonia, difficulty concentrating. Reports initial insomnia now using alcohol to sleep (3-4 beers nightly, increased from social drinking). Denies suicidal ideation but states \"can't see how things will get better.\" Wife reports personality change, irritability, emotional withdrawal.\n\nPRIOR PSYCHIATRIC HISTORY: None. No prior mental health treatment. Family history positive for depression (mother). No history of substance abuse prior to incident.\n\nMENTAL STATUS EXAM: Alert, cooperative, fair eye contact. Speech normal rate/rhythm. Mood \"terrible,\" affect constricted and dysphoric. Thought process logical but with intrusive trauma-related content. No hallucinations. Denies current suicidal or homicidal ideation. Insight fair, judgment fair. Cognitively intact.",
+    "plan": "DIAGNOSTIC IMPRESSIONS:\n1. Post-Traumatic Stress Disorder (acute), workplace trauma\n2. Major Depressive Disorder, single episode, moderate severity\n3. Adjustment disorder with alcohol use (emerging concern)\n\nRECOMMENDATIONS:\n- Immediate referral to psychiatry for medication management\n- Referral to trauma-focused psychotherapy (EMDR or CPT)\n- Temporary work restrictions: Off work pending psychiatric stabilization\n- Substance use counseling\n- Re-evaluation in 6 weeks\n- DISABILITY STATUS: Temporarily totally disabled from work\n\nWORK RELATEDNESS: This condition is directly related to workplace incident of 12/15/2022 per accepted workers' compensation claim #WC-2022-89453. Causation is clear and direct.",
+    "medications": [],
+    "vitals": {
+      "blood_pressure": "138/88",
+      "heart_rate": 92
+    }
+  },
+  {
+    "date": "2023-01-24",
+    "record_id": "MRN-2023-402",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Initial Psychiatric Evaluation",
+    "chief_complaint": "Initial psychiatric evaluation for PTSD and depression",
+    "assessment": "42-year-old male presents for initial psychiatric evaluation, referred by occupational health following workplace traumatic incident (witnessed coworker's death). Patient describes severe PTSD symptoms including intrusive recollections, nightmares, hyperarousal, and avoidance behaviors. Also endorses significant depressive symptoms meeting criteria for Major Depressive Disorder. Patient appears genuinely distressed and symptoms are consistent with reported trauma.\n\nCURRENT SYMPTOMS:\n- Intrusive memories daily, vivid nightmares 4-5x/week\n- Avoidance of workplace area, difficulty with any warehouse environments\n- Hypervigilance, exaggerated startle response\n- Depressed mood, anhedonia, low energy\n- Concentration difficulties, indecisiveness\n- Sleep disturbance (initial and middle insomnia)\n- Appetite decreased, 12 lb weight loss since December\n- Using alcohol to sleep (concerning pattern developing)\n- Passive death wishes but denies active suicidal ideation, plan, or intent\n\nSAFETY ASSESSMENT: Patient denies current suicidal ideation with plan or intent. Reports passive thoughts \"wouldn't mind not waking up\" but no active plans. Protective factors include wife, two children ages 8 and 10. No access to firearms. [RED FLAG: Risk assessment minimal, doesn't document specific plan inquiry or means assessment]\n\nDIAGNOSIS:\n1. Post-Traumatic Stress Disorder, acute\n2. Major Depressive Disorder, single episode, moderate\n3. Other specified trauma and stressor-related disorder\n\nPCL-5 Score: 58 (severe PTSD symptoms)\nPHQ-9 Score: 19 (moderately severe depression)",
+    "plan": "TREATMENT PLAN:\n1. Pharmacotherapy: Start sertraline 50mg daily (FDA approved for PTSD). Titrate as tolerated to target dose 150-200mg. Patient counseled on delayed onset of benefit (4-6 weeks), side effects, black box warning.\n2. Psychotherapy: Referred to Dr. Sarah Martinez, PhD for trauma-focused CBT, recommend twice weekly initially\n3. Sleep hygiene education, discourage alcohol use for sleep\n4. Safety planning completed, patient has crisis hotline number\n5. Follow-up in 2 weeks for medication adjustment\n6. Functional capacity evaluation scheduled for 6 weeks to assess work readiness\n7. Patient remains off work per workers' comp\n\nPROGNOSIS: Guarded. PTSD with acute workplace trauma typically responds to combined treatment but recovery may take 6-12 months. Return to work in same environment may be challenging.",
+    "medications": ["Sertraline 50mg PO daily"],
+    "vitals": {
+      "blood_pressure": "132/84",
+      "heart_rate": 88,
+      "weight": 178
+    }
+  },
+  {
+    "date": "2023-02-01",
+    "record_id": "MRN-2023-403",
+    "provider": "Dr. Sarah Martinez, PhD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Psychotherapy Initial Session",
+    "chief_complaint": "Initial trauma-focused therapy session",
+    "assessment": "Initial therapy session with 42-year-old male with acute PTSD following workplace fatality. Patient engaged but visibly distressed when discussing trauma. Completed detailed trauma history and symptom assessment. Patient reports trauma occurred 6 weeks ago. Re-experiencing symptoms severe. Patient able to provide coherent narrative but became tearful and required grounding techniques.\n\nTRAUMA NARRATIVE: Patient describes being first responder to forklift accident. Coworker (age 26) struck by falling pallet of equipment. Patient attempted CPR for approximately 8 minutes until paramedics arrived. Patient describes vivid sensory memories: visual images, sounds, smells. Reports guilt about not being able to save coworker. Rumination about \"what if I had been faster\" and \"I should have checked the straps on that pallet earlier.\"\n\nCURRENT FUNCTIONING: Unable to work. Avoiding warehouse stores, construction sites, anything reminiscent of workplace. Not driving past job site (adds 30 minutes to errands). Wife reports he is withdrawn from family activities, irritable with children. Marital stress increasing.",
+    "plan": "TREATMENT APPROACH: Cognitive Processing Therapy (CPT) for PTSD. Treatment plan:\n- Sessions twice weekly for 12 weeks\n- Phase 1: Psychoeducation, impact statement\n- Phase 2: Processing stuck points (guilt, responsibility)\n- Phase 3: Challenging problematic beliefs\n- Coordination with psychiatry for medication management\n\nToday completed psychoeducation about PTSD, discussed treatment rationale. Patient completed impact statement homework assignment. Next session will begin formal CPT protocol. Patient motivated for treatment but significant symptom severity noted.",
+    "medications": [],
+    "vitals": {}
+  },
+  {
+    "date": "2023-02-08",
+    "record_id": "MRN-2023-404",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Medication Management Follow-up",
+    "chief_complaint": "2-week medication follow-up",
+    "assessment": "Patient returns for medication follow-up. Reports tolerating sertraline 50mg without significant side effects. Some initial nausea first few days, now resolved. No activation or increased anxiety noted. Sleep remains poor but patient reports decreased alcohol use (now 1-2 beers nightly vs. 3-4). Still experiencing nightmares. Mood \"slightly better\" per patient, but still significantly depressed. Wife accompanies patient, reports he seems \"a bit less angry.\"\n\nStarted therapy with Dr. Martinez, attended 2 sessions. Patient reports therapy is \"hard but helpful.\" Able to begin discussing trauma narrative. Experiencing emotional processing but managing distress.\n\nPHQ-9 today: 17 (down from 19, minimal change)\nPCL-5: 56 (down from 58, minimal change)\n\nSAFETY: Patient denies suicidal ideation today. Reports passive death wishes resolved. Feels more hopeful about treatment. [RED FLAG: This contradicts initial assessment - no documentation of what changed or how previous passive SI was managed]",
+    "plan": "Increase sertraline to 100mg daily for better efficacy. Patient tolerating medication well. Continue therapy twice weekly. Encouraged continued reduction in alcohol use. Follow-up in 3 weeks. Patient to call if increased depression, suicidal thoughts, or inability to function. Reinforced crisis resources.",
+    "medications": ["Sertraline 100mg PO daily"],
+    "vitals": {
+      "blood_pressure": "126/82",
+      "heart_rate": 84,
+      "weight": 176
+    }
+  },
+  {
+    "date": "2023-02-15",
+    "record_id": "MRN-2023-421",
+    "provider": "Dr. Sarah Martinez, PhD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Psychotherapy Progress Note",
+    "chief_complaint": "CPT Session 3 - Trauma Processing",
+    "assessment": "Patient attended third therapy session. Working through trauma narrative in detail. Patient provides new information today that contradicts initial account: Now states he was NOT first on scene - states coworker died \"while I was getting help\" rather than during CPR attempts. When gently questioned about discrepancy, patient became defensive and stated \"I don't remember exactly, it was all so fast.\"\n\nPatient's trauma narrative today: Heard crash, ran to scene, saw coworker trapped under pallet, ran to get supervisor, returned to find paramedics already there performing CPR. Patient states he \"tried to help\" but paramedics told him to step back.\n\nThis differs significantly from initial account given to Dr. Anderson (1/18) and reiterated in first therapy session (2/1) where patient stated he performed CPR for 8 minutes until paramedics arrived.\n\nPatient continues to express guilt but nature of guilt seems to shift - now focused on \"not being there\" rather than \"not being able to save him.\"\n\nSymptoms remain severe. Patient tearful throughout session. Avoidance behaviors unchanged.",
+    "plan": "Continue trauma processing. Will need to clarify timeline of events - inconsistencies in trauma narrative may reflect normal memory fragmentation OR may indicate issues with accuracy of reporting. Will coordinate with Dr. Walsh regarding these discrepancies. Patient's next session in 3 days.",
+    "medications": [],
+    "vitals": {}
+  },
+  {
+    "date": "2023-02-22",
+    "record_id": "MRN-2023-405",
+    "provider": "Dr. Sarah Martinez, PhD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Psychotherapy Progress Note",
+    "chief_complaint": "CPT Session 5",
+    "assessment": "Patient attended 5th therapy session. Compliance good, attended all scheduled appointments. Working on challenging stuck points related to guilt and responsibility. Patient completed ABC worksheets identifying problematic cognitions: \"It's my fault he died\" and \"I should have prevented this.\" \n\nPROGRESS: Patient able to identify cognitive distortions. Beginning to challenge self-blame. However, avoidance behaviors remain prominent. Patient continues to refuse any discussion of returning to work environment. When explored, patient becomes anxious and withdrawn. Some progress on mood symptoms - less irritable at home per patient report. Nightmares continue 3-4 nights per week.",
+    "plan": "Continue CPT protocol. Next phase will focus on safety and trust themes. Patient to complete Challenging Questions worksheet for homework. Discussed gradual exposure to avoided stimuli - patient resistant at this time. Will revisit after more cognitive work completed. Patient cooperative with treatment plan.",
+    "medications": [],
+    "vitals": {}
+  },
+  {
+    "date": "2023-03-01",
+    "record_id": "MRN-2023-406",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Medication Management Follow-up",
+    "chief_complaint": "Medication follow-up, dose adjustment",
+    "assessment": "Patient returns for follow-up on sertraline 100mg. Reports some improvement in mood and anxiety. Sleep improved slightly. Nightmares 2-3 times weekly now (down from 4-5). Still experiencing intrusive thoughts but reports they are \"less intense.\" Therapy progressing well per patient report.\n\nPHQ-9: 14 (improved from 17)\nPCL-5: 49 (improved from 56)\n\nPatient now alcohol-free for 2 weeks, using trazodone PRN for sleep instead. No side effects from sertraline at current dose. Patient reports improved concentration. Still not working.\n\nSAFETY ASSESSMENT: No suicidal ideation. Denies homicidal ideation. Mood improving. Engaged in treatment.",
+    "plan": "Increase sertraline to 150mg daily for further symptom improvement. Patient tolerating well and showing positive response. Add trazodone 50mg qhs PRN insomnia (1-2 times weekly as needed). Continue trauma-focused therapy. Functional capacity evaluation scheduled for 3/22. Follow-up in 4 weeks. Workers' comp case manager requesting update - will provide progress report.",
+    "medications": ["Sertraline 150mg PO daily", "Trazodone 50mg PO qhs PRN insomnia"],
+    "vitals": {
+      "blood_pressure": "124/78",
+      "heart_rate": 78,
+      "weight": 175
+    }
+  },
+  {
+    "date": "2023-03-10",
+    "record_id": "MRN-2023-422",
+    "provider": "Claims Adjuster Notes - Redacted",
+    "facility": "Workers' Compensation Carrier",
+    "record_type": "Surveillance Report Summary",
+    "chief_complaint": "Investigative surveillance findings",
+    "assessment": "CONFIDENTIAL SURVEILLANCE REPORT SUMMARY\nClaim #WC-2022-89453\nDate Range: 2/28/23 - 3/8/23\n\nSubject observed over 6-day period. Key findings:\n\n2/28/23 (Tuesday): Subject observed leaving residence at 0845hrs. Drove to local gym, spent 90 minutes inside. Exited carrying gym bag, appeared relaxed, no visible signs of distress. Stopped at coffee shop, socialized with employee for approximately 10 minutes (appeared friendly, smiling).\n\n3/2/23 (Thursday): Subject observed playing basketball at community park with group of 4-5 other males for approximately 2 hours (1400-1600hrs). Subject appeared energetic, animated, laughing with others. Physical activity appeared vigorous - jumping, running, no apparent physical limitations.\n\n3/4/23 (Saturday): Subject observed at Home Depot for approximately 45 minutes. Purchased various items, loaded truck bed himself. Later observed at residential property (friend's house per database) helping move furniture - carried couch, chairs, boxes. Activity appeared sustained and physically demanding.\n\n3/8/23 (Wednesday): Subject observed at children's school - attended parent conference per school calendar. Appeared appropriate, no visible distress.\n\nANALYSIS: Subject's activity level and social engagement appear inconsistent with claimed total disability. Physical capacity appears unrestricted. Mood/affect observed as appropriate and at times upbeat, inconsistent with reported severe depression. No evidence of hypervigilance, avoidance behaviors, or distress observed during 6 days of surveillance.\n\nRECOMMENDATION: Continue monitoring. Consider IME given activity discrepancies with claimed disability status.",
+    "plan": "Surveillance report forwarded to claims manager and defense counsel. IME being arranged.",
+    "medications": [],
+    "vitals": {}
+  },
+  {
+    "date": "2023-03-22",
+    "record_id": "MRN-2023-407",
+    "provider": "James Wilson, OTR/L",
+    "facility": "Functional Assessment Center",
+    "record_type": "Functional Capacity Evaluation",
+    "chief_complaint": "Psychiatric FCE for return to work assessment",
+    "assessment": "42-year-old male evaluated for functional capacity in context of workers' compensation claim for PTSD and depression following workplace fatality. Evaluation conducted over 2-day period assessing occupational functioning, cognitive capacity, and psychological fitness for work.\n\nTESTING RESULTS:\n- Cognitive functioning: Attention and concentration mildly impaired (likely medication and PTSD effects). Executive functioning within normal limits.\n- Physical capacity: No physical limitations noted. Patient able to perform all physical demands of warehouse supervisor role.\n- Psychological functioning: Significant anxiety when discussing workplace return. Patient expressed strong aversion to warehouse environment. When shown photos of similar work environment, patient exhibited visible distress, elevated heart rate, and requested break.\n- Consistency of effort: Full effort demonstrated throughout evaluation. Valid testing.\n- Symptom validity testing: Performance consistent with reported symptoms.\n\nFUNCTIONAL LIMITATIONS:\n- Cannot tolerate warehouse environment at this time due to trauma triggers\n- May require modified work environment (office-based, non-warehouse)\n- Interpersonal functioning adequate for supervised work\n- Cognitive demands: Can perform work requiring attention to detail with occasional breaks\n\nCOLLATERAL INFORMATION: [RED FLAG: No collateral information from employer included. No documentation of job demands, workplace accommodations offered, or employer perspective on incident.]",
+    "plan": "RECOMMENDATIONS:\n1. Patient not ready to return to warehouse supervisor role at this time\n2. May be appropriate for transitional work in non-warehouse setting\n3. Continue psychiatric treatment with goal of workplace desensitization\n4. Re-evaluate in 8-12 weeks\n5. Consider vocational rehabilitation if unable to return to similar work\n\nOPINION: Patient's functional limitations are directly related to workplace trauma of 12/15/2022. Prognosis for return to similar work environment guarded. May ultimately require alternative work setting.",
+    "medications": [],
+    "vitals": {}
+  },
+  {
+    "date": "2023-03-29",
+    "record_id": "MRN-2023-408",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Medication Management Follow-up",
+    "chief_complaint": "Follow-up, FCE review, treatment planning",
+    "assessment": "Patient returns following functional capacity evaluation. FCE results reviewed with patient. Patient reports feeling \"validated\" that limitations were documented. However, patient expresses anxiety about workers' comp pressure to return to work. Patient adamant he cannot return to warehouse environment.\n\nCurrent medication regimen: Sertraline 150mg showing good response. Sleep improved with trazodone PRN. \n\nPHQ-9: 11 (mild depression, continued improvement)\nPCL-5: 43 (moderate PTSD symptoms, continued improvement)\n\nTherapy compliance: Patient attended 12 sessions of CPT. Dr. Martinez reports good progress on cognitive restructuring. Avoidance behaviors improved in most domains except work-related triggers. Patient now able to drive past workplace but refuses to enter parking lot.\n\n[RED FLAG: Patient reports he stopped taking sertraline for \"a few days last week\" because he \"felt better.\" Restarted on his own. This medication non-compliance not adequately addressed in treatment plan.]",
+    "plan": "Continue sertraline 150mg - emphasized importance of daily compliance, not stopping without consulting provider. Discussed that discontinuation can cause withdrawal and symptom recurrence. Patient verbalizes understanding.\n\nDiscussed next steps per FCE recommendations: Consider gradual workplace exposure therapy vs. vocational rehabilitation for alternative work setting. Patient resistant to exposure therapy involving actual workplace at this time.\n\nWorkers' comp requesting IME (Independent Medical Examination) - scheduled for next month. Patient anxious about this. Provided reassurance about process.\n\nFollow-up in 4 weeks. Therapy transitioning to monthly maintenance after completion of CPT protocol.",
+    "medications": ["Sertraline 150mg PO daily", "Trazodone 50mg PO qhs PRN"],
+    "vitals": {
+      "blood_pressure": "122/76",
+      "heart_rate": 76,
+      "weight": 174
+    }
+  },
+  {
+    "date": "2023-04-05",
+    "record_id": "MRN-2023-423",
+    "provider": "Dr. Sarah Martinez, PhD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Psychotherapy Progress Note",
+    "chief_complaint": "Monthly maintenance session",
+    "assessment": "Patient attended monthly maintenance therapy session following completion of CPT protocol. Overall functioning improved compared to initial presentation. Patient reports better mood, fewer nightmares, improved family relationships.\n\nPatient spontaneously provided additional details about workplace incident today. States he now remembers he was actually in the break room when the accident occurred - heard the crash and came running. This is the THIRD VERSION of events patient has provided:\n\nVersion 1 (1/18, 2/1): Patient was first on scene, performed CPR for 8 minutes\nVersion 2 (2/15): Patient heard crash, ran to get supervisor, returned to find paramedics present\nVersion 3 (today): Patient was in break room, heard crash, came running, saw aftermath\n\nWhen gently confronted with inconsistencies, patient became irritated and stated: \"I've told you what happened. Why do you keep asking me this? Are you saying I'm lying?\" Patient appeared genuinely distressed by the questioning.\n\nTherapist notes: These narrative inconsistencies could represent normal trauma memory fragmentation, dissociative symptoms, or potentially inconsistent reporting. Patient's distress when questioned appears genuine. However, pattern raises questions about reliability of trauma account.",
+    "plan": "Continue monthly supportive therapy. Monitor for symptom changes. Document narrative inconsistencies in treatment record. May need to address directly if pattern continues or impacts treatment. Patient cooperative otherwise and making progress in other domains.",
+    "medications": [],
+    "vitals": {}
+  },
+  {
+    "date": "2023-04-12",
+    "record_id": "MRN-2023-424",
+    "provider": "Attorney Work Product - Medical Records Review",
+    "facility": "Defense Counsel Office",
+    "record_type": "Employer Witness Statement",
+    "chief_complaint": "Employer witness statement regarding workplace incident",
+    "assessment": "STATEMENT OF WAREHOUSE MANAGER - PETER SULLIVAN\nDate of Interview: 4/10/2023\nRe: Workplace Fatality Incident 12/15/2022\n\nMr. Sullivan (warehouse manager, patient's direct supervisor) provided the following account:\n\nOn 12/15/2022, at approximately 1430hrs, forklift operator (deceased employee) was moving palletized cargo in Warehouse Section C. Patient (claimant) was not assigned to that section that day - he was conducting inventory in Section A, approximately 200 yards away in separate building.\n\nWitness (Sullivan) was first responder to accident scene. Found forklift operator trapped under fallen pallet. Immediately called 911 and began CPR. Patient (claimant) arrived \"maybe 3-4 minutes later\" - witness estimates patient arrived while witness was performing CPR, before EMS arrival.\n\nPatient did NOT perform CPR per witness account. Witness (Sullivan) performed CPR continuously until EMS arrival approximately 6-7 minutes after incident. Patient was present but \"standing back, looked shocked.\" Witness told patient to \"go flag down the ambulance\" when they heard sirens approaching.\n\nEMS pronounced employee deceased at scene. Witness estimates patient was at scene total of 8-10 minutes.\n\nWitness notes: Patient and deceased employee were friends, often took breaks together. Patient appeared \"very upset\" after incident. Patient went home early that day and did not return to work thereafter.\n\nIMPORTANT: Witness account contradicts claimant's reported version of events in multiple medical records. Witness states claimant was NOT first responder and did NOT perform CPR.",
+    "plan": "Statement to be used in IME and potential litigation. Factual discrepancy between claimant's account and employer witness regarding claimant's role in incident response.",
+    "medications": [],
+    "vitals": {}
+  },
+  {
+    "date": "2023-04-26",
+    "record_id": "MRN-2023-409",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Medication Management Follow-up",
+    "chief_complaint": "Follow-up visit",
+    "assessment": "Patient returns for routine follow-up. Reports continued improvement in overall functioning. Mood \"mostly good\" with occasional bad days. Sleep generally adequate. Nightmares now 1-2 times weekly. Able to resume some family activities. Less irritable, improving relationship with wife and children.\n\nStill not working. IME scheduled for next week. Patient very anxious about this evaluation, concerned about being \"forced back to work\" and losing benefits. Reassured patient about IME process.\n\nPHQ-9: 9 (mild depression)\nPCL-5: 38 (moderate PTSD symptoms, continued gradual improvement)\n\nPatient reports missing several doses of sertraline over past month - reports \"forgetting\" and \"not thinking about it\" when feeling better. [RED FLAG: Ongoing medication non-compliance, patient minimizing this. Provider does not adequately address pattern or implement compliance strategies.]",
+    "plan": "Discussed importance of medication compliance. Patient agrees to set phone reminders. Consider using pill organizer. Continue current medications. Follow-up in 4 weeks. Patient to call after IME to discuss results and recommendations. Encouraged patient to continue therapy maintenance sessions monthly.",
+    "medications": ["Sertraline 150mg PO daily", "Trazodone 50mg PO qhs PRN"],
+    "vitals": {
+      "blood_pressure": "126/80",
+      "heart_rate": 80,
+      "weight": 176
+    }
+  },
+  {
+    "date": "2023-05-03",
+    "record_id": "MRN-2023-410",
+    "provider": "Dr. Robert Chen, MD",
+    "facility": "Independent Medical Examiners, Inc.",
+    "record_type": "Independent Medical Examination",
+    "chief_complaint": "IME for workers' compensation psychological claim",
+    "assessment": "42-year-old male evaluated at request of workers' compensation carrier regarding psychological disability claim following workplace incident 12/15/2022. Extensive record review completed including occupational health records, psychiatric treatment records, therapy notes, FCE report, surveillance video, and employer witness statement.\n\nPATIENT HISTORY: Patient provides detailed account of incident - states he was first on scene, performed CPR for approximately 8 minutes, coworker died despite his efforts. Patient describes significant emotional impact. Reports current treatment with sertraline and trauma-focused therapy. Claims unable to work due to PTSD symptoms.\n\nRECORD REVIEW: Treatment records document PTSD and major depression with good response to medication and therapy. Symptom scores show improvement from severe to moderate range over 4 months of treatment. FCE documents functional limitations related to warehouse environment.\n\nHOWEVER: Significant discrepancies noted between claimant's account and independent evidence:\n\n1. TRAUMA NARRATIVE INCONSISTENCIES: Claimant has provided three different versions of his role in incident across treatment records (see therapy notes 2/1, 2/15, 4/5). Current account to examiner matches Version 1 (performed CPR as first responder).\n\n2. EMPLOYER WITNESS CONTRADICTION: Warehouse manager's sworn statement indicates claimant was NOT first responder, did NOT perform CPR, and arrived 3-4 minutes after incident began. Witness (manager) performed all CPR efforts.\n\n3. SURVEILLANCE FINDINGS: Video surveillance 2/28-3/8/23 shows claimant engaging in vigorous physical activity (basketball, moving furniture), socializing appropriately with normal affect, no observable signs of hypervigilance or avoidance behaviors in community settings.\n\n4. SYMPTOM PRESENTATION: During today's examination, claimant endorsed severe ongoing symptoms (PHQ-9: 16, PCL-5: 52) that are MORE SEVERE than scores documented in recent treatment notes (PHQ-9: 9, PCL-5: 38 on 4/26/23). This pattern of symptom magnification in evaluation context is notable.\n\nMENTAL STATUS EXAM: Alert, cooperative, good eye contact. Speech normal. Mood \"terrible,\" affect appears constricted but reactive during exam. Thought process organized, no tangentiality. No hallucinations or delusions. Denies current suicidal ideation. Insight and judgment fair. Cognitive screening normal.\n\nVALIDITY TESTING: Patient completed Structured Inventory of Malingered Symptomatology (SIMS). Score of 38 (cutoff >16 suggests feigning). Elevated across all subscales, particularly Affective Disorders and Post-Traumatic Stress subscales.",
+    "plan": "DIAGNOSTIC OPINIONS:\n1. Post-Traumatic Stress Disorder - diagnosis QUESTIONED given inconsistent trauma narrative and lack of corroborating evidence for claimed traumatic exposure (performing CPR on dying coworker)\n2. Major Depressive Disorder - in partial remission per treatment records, though claimant reports more severe symptoms to examiner\n3. Malingering - SUSPECTED given: symptom magnification, inconsistent trauma narrative, failed validity testing, surveillance evidence contradicting claimed impairment\n\nCAUSATION: While claimant witnessed workplace fatality, the EXTENT of traumatic exposure is unclear given factual discrepancies. Claimant may have genuine distress from witnessing incident aftermath, but claimed role as first responder performing CPR is NOT supported by employer witness account.\n\nCURRENT WORK STATUS: Treatment records indicate significant clinical improvement (PHQ-9: 9, PCL-5: 38). Surveillance shows unrestricted physical capacity and appropriate social functioning. Patient likely capable of modified work duties. Total disability status not supported by objective evidence.\n\nMAXIMUM MEDICAL IMPROVEMENT: Based on treatment response trajectory, patient likely at or near MMI. Continued total work disability not medically justified.\n\nRECOMMENDATIONS:\n1. Permanent partial disability rating: 10-15% whole person impairment (assuming genuine PTSD from witnessing aftermath, even if not performing CPR)\n2. Permanent work restrictions: May benefit from workplace modification (avoid specific location of incident) but capable of returning to warehouse supervision role\n3. Psychiatric treatment may continue if patient desires, but medical necessity for continued total disability not established\n4. Consider independent functional capacity evaluation and/or neuropsychological testing if disability claim continues\n\nOPINION ON MALINGERING: Substantial evidence suggests conscious exaggeration of symptoms and fabrication of trauma exposure details for secondary gain (workers' compensation benefits). This does NOT mean patient has no genuine distress, but the SEVERITY and EXTENT of impairment are likely overstated.",
+    "medications": [],
+    "vitals": {
+      "blood_pressure": "136/84",
+      "heart_rate": 88
+    }
+  },
+  {
+    "date": "2023-05-10",
+    "record_id": "MRN-2023-425",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Crisis Visit Note",
+    "chief_complaint": "Emergency appointment - acute distress following IME",
+    "assessment": "Patient called requesting urgent appointment after receiving IME report. Seen today on emergency basis. Patient extremely distressed, tearful, angry. Reports feeling \"attacked\" and \"accused of lying\" by IME examiner.\n\nPatient adamantly denies malingering allegations. States \"I know what I lived through\" and \"no one believes me.\" Patient describes feeling re-traumatized by IME process. Reports increased nightmares since IME (now nightly), increased alcohol use (4-5 beers nightly, up from minimal use), intrusive thoughts about incident returning.\n\nPHQ-9 today: 21 (severe depression - significant worsening from 9 last visit)\nPCL-5 today: 57 (severe PTSD - significant worsening from 38 last visit)\n\nPatient denies suicidal ideation but states \"I don't know how much more of this I can take.\" \n\nPatient provides explanation for narrative inconsistencies: States he has \"fragmented memories\" of incident and \"different parts come back at different times.\" States he is \"not lying\" but \"traumatized memories are confusing.\" Patient emotional when discussing this.\n\nSAFETY ASSESSMENT: Patient denies suicidal plan or intent. Protective factors: wife, children, ongoing treatment. Patient agrees to safety contract. No acute hospitalization needed but patient requires close monitoring.",
+    "plan": "IMMEDIATE INTERVENTIONS:\n1. Increase therapy frequency back to weekly (patient agrees)\n2. Continue sertraline 150mg - patient to take daily without exception\n3. Strongly discouraged alcohol use - discussed healthier coping strategies\n4. Safety planning reinforced\n5. Follow-up in 1 week (sooner than usual)\n6. Patient to call or go to ED if suicidal thoughts develop\n\nLONG-TERM PLANNING:\n1. Will provide addendum to workers' comp addressing symptom worsening\n2. Patient may benefit from second opinion IME (claimant's expert)\n3. Consider involving patient's attorney in treatment planning given litigation stress\n\nCLINICAL IMPRESSION: Whether or not patient's trauma narrative is entirely accurate, his current distress is genuine and acute. IME process appears to have triggered significant symptom exacerbation. Patient requires intensive support at this time regardless of workers' comp claim outcome.",
+    "medications": ["Sertraline 150mg PO daily", "Trazodone 50mg PO qhs PRN"],
+    "vitals": {
+      "blood_pressure": "148/94",
+      "heart_rate": 102,
+      "weight": 171
+    }
+  },
+  {
+    "date": "2023-05-24",
+    "record_id": "MRN-2023-411",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Medication Management Follow-up",
+    "chief_complaint": "Post-IME follow-up",
+    "assessment": "Patient returns very distressed following IME. Patient received IME report suggesting malingering and exaggeration. Patient feels \"betrayed\" by the system and \"like nobody believes me.\" Patient reports IME examiner \"didn't understand\" and \"didn't spend enough time.\" Patient anxious about workers' comp benefits being discontinued.\n\nPatient admits he \"may have exaggerated a little\" during IME because he was scared about losing benefits and being forced back to work. However, maintains his symptoms are genuine and he truly cannot work in warehouse environment. States \"maybe I made it sound worse than it is sometimes, but I'm really struggling.\"\n\nCurrent functioning: Patient reports increased stress leading to worsening symptoms past 2 weeks. Nightmares increased to 3-4 times weekly again. Mood declining. Patient admits medication compliance \"not great\" - taking approximately 4-5 days per week instead of daily.\n\nPHQ-9: 15 (worsening from 9)\nPCL-5: 46 (worsening from 38)\n\nSAFETY: Patient denies suicidal ideation but reports feeling hopeless about work situation. [RED FLAG: Inconsistent risk assessment - previous documentation indicated resolution of passive SI, now \"hopeless\" but no clear documentation of current risk level, protective factors, or safety planning]",
+    "plan": "Long discussion about medication compliance and its impact on symptom stability. Patient's current symptom exacerbation likely related to medication non-compliance plus IME stress. Strongly encouraged daily medication use. Patient agrees to use pill organizer and daily alarm.\n\nDiscussed IME recommendations. Patient needs to engage with vocational rehabilitation process. Avoiding this is maintaining disability status. Patient reluctant but agrees to initial VR assessment.\n\nWorkers' comp case manager requesting treatment plan update. Will provide report indicating continued psychiatric treatment needed, medication compliance concerns, and VR referral.\n\nFollow-up in 2 weeks. Patient to resume weekly therapy with Dr. Martinez to address current stress and work avoidance. If medication compliance does not improve, will consider alternate medication formulations or interventions.",
+    "medications": ["Sertraline 150mg PO daily", "Trazodone 50mg PO qhs PRN"],
+    "vitals": {
+      "blood_pressure": "142/88",
+      "heart_rate": 92,
+      "weight": 178
+    }
+  },
+  {
+    "date": "2023-06-01",
+    "record_id": "MRN-2023-426",
+    "provider": "Dr. Patricia Reynolds, MD",
+    "facility": "Psychiatric Consultants - Claimant's Expert",
+    "record_type": "Claimant's Independent Psychiatric Evaluation",
+    "chief_complaint": "Second opinion IME requested by claimant's attorney",
+    "assessment": "INDEPENDENT PSYCHIATRIC EVALUATION - CLAIMANT'S EXPERT\n\nI was retained by claimant's attorney to provide second opinion regarding psychiatric injury claim. I have reviewed all available records including treatment notes, defense IME by Dr. Chen, surveillance reports, and employer witness statements.\n\nEVALUATION CONDUCTED 6/1/23:\n3-hour evaluation including clinical interview, record review, and psychological testing.\n\nCLINICAL INTERVIEW:\nClaimant provided detailed account of workplace incident. Acknowledges his memory of specific details is \"fragmented and unclear\" - states some memories are \"vivid\" while others are \"like watching through fog.\" This description is CONSISTENT with traumatic memory encoding in PTSD.\n\nClaimant emotional when discussing incident. Reports he has \"different memories at different times\" and becomes confused about exact sequence of events. States \"I was there, I saw him die, I tried to help, but I can't remember it all clearly.\" This narrative fragmentation is TYPICAL in acute trauma response.\n\nREGARDING SURVEILLANCE:\nClaimant acknowledges engaging in physical activities shown in surveillance. States he has \"good days and bad days\" and surveillance captured \"good days.\" Points out that PTSD is characterized by symptom variability - patients can appear functional in some contexts while impaired in others. Claimant's description is clinically plausible.\n\nREGARDING SYMPTOM VALIDITY TESTING:\nDr. Chen administered SIMS which showed elevated scores suggestive of feigning. HOWEVER, research shows SIMS has high false-positive rate in genuine PTSD patients who are also involved in litigation. Elevated SIMS alone is INSUFFICIENT to diagnose malingering per APA guidelines. Additional validity measures needed.\n\nI administered:\n- Minnesota Multiphasic Personality Inventory-2-Restructured Form (MMPI-2-RF)\n- Personality Assessment Inventory (PAI)\n- Miller Forensic Assessment of Symptoms Test (M-FAST)\n\nRESULTS: Profile consistent with genuine psychological distress. Some elevation on validity scales but within acceptable range. M-FAST score: 4 (cutoff >6 for malingering). Overall profile does NOT support malingering diagnosis.\n\nMENTAL STATUS EXAM:\nPatient presented as distressed but cooperative. Mood depressed, affect constricted. Described intrusive memories, nightmares, hypervigilance. Became tearful when discussing workplace and deceased coworker. Clinically, presentation appears GENUINE.\n\nANALYSIS OF NARRATIVE INCONSISTENCIES:\nDefense argues claimant's changing story proves fabrication. HOWEVER, trauma memory research shows:\n1. Traumatic memories are often fragmented and disorganized\n2. Peripheral details may change across retellings while core trauma remains consistent\n3. Claimant's CORE TRAUMA (witnessing coworker's death in workplace accident) has remained consistent\n4. Peripheral details (exact role in response, CPR performance) have varied - this is EXPECTED in trauma memories\n\nEven if claimant did NOT perform CPR (per employer witness), he clearly witnessed traumatic death of coworker and aftermath. This exposure is sufficient for PTSD diagnosis per DSM-5 Criterion A.",
+    "plan": "DIAGNOSTIC OPINIONS:\n1. Post-Traumatic Stress Disorder - SUPPORTED by clinical presentation, symptom course, treatment response, and psychological testing\n2. Major Depressive Disorder - SUPPORTED, currently in partial remission with treatment\n3. Malingering - NOT SUPPORTED by comprehensive evaluation\n\nCAUSATION: Clear and direct relationship between workplace fatality (12/15/22) and psychiatric conditions. Whether claimant performed CPR or witnessed aftermath, traumatic exposure is sufficient for PTSD causation.\n\nCURRENT WORK STATUS: While claimant has shown treatment response, he continues to have significant PTSD symptoms (PCL-5: 46, moderate-severe range). Workplace represents trauma trigger. Continued work restrictions appropriate at this time.\n\nDISABILITY ASSESSMENT: Claimant remains temporarily totally disabled from warehouse supervisor position. May be appropriate for alternative work setting (non-warehouse) with vocational rehabilitation support. Premature to rate permanent disability at this time - continued treatment needed.\n\nRECOMMENDATIONS:\n1. Continue psychiatric treatment with Dr. Walsh\n2. Continue trauma-focused psychotherapy\n3. Vocational rehabilitation assessment for alternative work placement\n4. Re-evaluation in 6 months\n5. Permanent restrictions will likely include: avoid warehouse/industrial settings, avoid location of traumatic incident\n\nOPINION ON DEFENSE IME:\nDr. Chen's evaluation appears to have over-interpreted isolated findings (SIMS score, surveillance video) while dismissing clinical context and trauma memory research. Malingering diagnosis requires substantial evidence of conscious fabrication - such evidence is NOT present in this case. Claimant's presentation is consistent with genuine PTSD, even if some peripheral details of trauma narrative are unclear or inconsistent.",
+    "medications": [],
+    "vitals": {}
+  },
+  {
+    "date": "2023-06-07",
+    "record_id": "MRN-2023-412",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Progress Note",
+    "chief_complaint": "2-week follow-up, compliance check",
+    "assessment": "Patient returns for 2-week follow-up. Reports improved medication compliance using pill organizer and alarm system. Taking medication \"almost every day.\" Mood slightly improved from last visit. Still stressed about workers' comp situation but less panicked.\n\nVocational rehabilitation assessment scheduled for next week. Patient anxious but committed to attending.\n\nPatient received copy of Dr. Reynolds' evaluation (claimant's expert). Reports feeling \"validated\" and \"relieved that someone believes me.\" Patient tearful with relief during session.\n\nPHQ-9: 12 (improved from 15)\nPCL-5: 42 (improved from 46)\n\nSymptoms stabilizing with improved medication compliance. Patient acknowledges connection between compliance and symptom control.",
+    "plan": "Continue current medication regimen. Emphasized critical importance of daily compliance. Patient verbalizes understanding and commitment. VR assessment next week. Continue weekly therapy with Dr. Martinez. Follow-up in 4 weeks. Encouraged patient to prepare questions for VR counselor about alternative work options.",
+    "medications": ["Sertraline 150mg PO daily", "Trazodone 50mg PO qhs PRN"],
+    "vitals": {
+      "blood_pressure": "132/80",
+      "heart_rate": 84,
+      "weight": 177
+    }
+  },
+  {
+    "date": "2023-06-14",
+    "record_id": "MRN-2023-413",
+    "provider": "Linda Peterson, MS, CRC",
+    "facility": "Vocational Rehabilitation Services",
+    "record_type": "Vocational Assessment",
+    "chief_complaint": "Initial vocational rehabilitation assessment",
+    "assessment": "42-year-old male with 8 years experience as warehouse supervisor, currently disabled due to work-related PTSD. Assessment conducted to determine feasibility of return to work in alternative capacity.\n\nWORK HISTORY: Strong work history. Employed continuously since age 18. Warehouse supervisor role for past 8 years earning $62,000 annually. Prior experience includes delivery driver, inventory clerk, assistant manager. High school graduate, some community college courses.\n\nSKILLS ASSESSMENT: Transferable skills include supervision, inventory management, logistics coordination, computer proficiency (warehouse management systems), customer service, problem-solving. Physical capacity unrestricted.\n\nBARRIERS TO EMPLOYMENT:\n- PTSD symptoms preclude warehouse/industrial environments\n- Currently in psychiatric treatment, improving but not stable\n- Anxiety about work in general, some learned helplessness pattern\n- Financial stress from reduced workers' comp benefits creates pressure\n- Ongoing litigation stress regarding claim validity\n\nVOCATIONAL POTENTIAL: Patient has significant transferable skills. Could pursue roles in logistics, transportation coordination, office-based inventory management, customer service management, or retail supervision in non-warehouse settings.",
+    "plan": "VOCATIONAL REHABILITATION PLAN:\n1. Job skills training: Computer applications, office procedures\n2. Resume development and interview skills\n3. Job placement assistance targeting office-based roles in logistics/supply chain\n4. Gradual return to work (part-time initially)\n5. Coordination with psychiatric providers for work readiness\n6. Target: Return to suitable work within 3-4 months\n\nPatient appeared motivated but anxious during assessment. Willing to engage in VR process. Case accepted for services.",
+    "medications": [],
+    "vitals": {}
+  },
+  {
+    "date": "2023-06-28",
+    "record_id": "MRN-2023-426",
+    "provider": "Dr. Sarah Martinez, PhD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Psychotherapy Progress Note",
+    "chief_complaint": "Weekly therapy - Litigation stress processing",
+    "assessment": "Patient attended weekly therapy session (resumed intensive therapy per Dr. Walsh's recommendation after IME crisis). Working on processing litigation stress and sense of being \"attacked\" by workers' comp system.\n\nPatient discussed narrative inconsistencies openly today. States: \"I've been trying to remember exactly what happened because everyone keeps asking me. Every time I think about it, different pieces come up. I don't know anymore what I actually remember versus what I've been told or read in reports.\"\n\nThis statement suggests possible memory contamination - patient's recollection may be influenced by multiple retellings, reading reports, attorney discussions, etc. Patient appears genuinely confused about his own memories.\n\nPatient reports increased anxiety about VR process. Attended 2 VR sessions but finding it \"stressful.\" States \"I want to work but I'm scared I'll fail\" and \"what if I have a panic attack in front of new coworkers?\"\n\nDISCUSSED: Difference between trauma memories and narrative construction. Normalized memory fragmentation in PTSD. Addressed patient's fear of \"being caught lying\" versus having \"imperfect memories of traumatic event.\"",
+    "plan": "Continue weekly supportive therapy focused on:\n1. Litigation stress management\n2. Return-to-work anxiety processing\n3. Building frustration tolerance for workers' comp system demands\n4. Reinforcing that treatment is about patient's wellbeing, not about \"proving\" disability\n\nPatient engaged and working hard in therapy. Progress noted in insight and emotional regulation.",
+    "medications": [],
+    "vitals": {}
+  },
+  {
+    "date": "2023-07-05",
+    "record_id": "MRN-2023-414",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Medication Management Follow-up",
+    "chief_complaint": "Routine follow-up",
+    "assessment": "Patient returns for follow-up. Engaged in vocational rehabilitation, attended 3 sessions. Reports VR counselor is \"helpful\" and has identified potential job opportunities in logistics coordination (office-based). Patient ambivalent - expresses desire to work but also anxiety about capability and fear of failure.\n\nMedication compliance improved. Patient reports taking medication daily for past 3 weeks. Symptom stability maintained.\n\nPHQ-9: 10 (mild depression, stable)\nPCL-5: 40 (moderate PTSD, stable)\n\nSleep adequate. Nightmares occasional (1-2 weekly). Functioning at home improved. Patient reports better relationship with family. Engaged in some recreational activities (resumed playing basketball with friends).\n\nNOTE: Patient's functional capacity appears good - playing basketball, socializing, engaged in VR, managing family responsibilities. This is consistent with surveillance findings. However, patient maintains strong aversion to warehouse/industrial settings specifically. Clinical picture suggests trauma-specific phobic avoidance rather than global disability.",
+    "plan": "Continue current medication regimen. Medication compliance good, maintain current approach. VR progressing appropriately. Patient needs to continue engaging with process. May need to address work-related anxiety as return to work approaches. Consider time-limited use of low-dose benzodiazepine for situational anxiety around job interviews if needed. Follow-up in 4 weeks.",
+    "medications": ["Sertraline 150mg PO daily", "Trazodone 50mg PO qhs PRN"],
+    "vitals": {
+      "blood_pressure": "128/80",
+      "heart_rate": 78,
+      "weight": 176
+    }
+  },
+  {
+    "date": "2023-08-02",
+    "record_id": "MRN-2023-415",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "No-Show Documentation",
+    "chief_complaint": "No-show for scheduled appointment",
+    "assessment": "Patient failed to attend scheduled appointment. No call, no show. Attempted to contact patient via phone - no answer, left voicemail. First missed appointment. Patient's next scheduled appointment in 4 weeks per established monthly schedule.",
+    "plan": "Continue current medications as prescribed. Patient to reschedule if desired. Will attempt follow-up contact in 1 week if no patient response. Notified workers' comp case manager of missed appointment.",
+    "medications": [],
+    "vitals": {}
+  },
+  {
+    "date": "2023-09-06",
+    "record_id": "MRN-2023-416",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "No-Show Documentation",
+    "chief_complaint": "Second consecutive no-show",
+    "assessment": "Patient failed to attend second consecutive scheduled appointment. Multiple phone call attempts over past month unreturned. Spoke briefly with patient's wife who reports patient \"doing okay\" but has been avoiding appointments and \"doesn't want to deal with workers' comp stuff anymore.\" Wife reports patient stopped taking medications approximately 3-4 weeks ago on his own. Wife concerned but patient refusing to discuss.\n\n[RED FLAG: 60+ day treatment gap beginning. Patient medication non-compliant and disengaged from care. No documented outreach plan or crisis intervention despite high-risk factors: PTSD, depression history, passive SI history, medication discontinuation, care disengagement.]",
+    "plan": "Sent certified letter to patient's home address documenting missed appointments and strongly encouraging return to care. Advised that discontinuing sertraline abruptly can cause withdrawal symptoms and return of psychiatric symptoms. Provided crisis resources. Notified workers' comp case manager of treatment non-compliance. Chart will remain open for 90 days, then patient will be discharged if no contact. Patient may call to reschedule at any time.",
+    "medications": ["Sertraline 150mg PO daily (STOPPED BY PATIENT)", "Trazodone 50mg PO qhs PRN"],
+    "vitals": {}
+  },
+  {
+    "date": "2023-10-18",
+    "record_id": "MRN-2023-417",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Patient Return to Care",
+    "chief_complaint": "Patient returns after 75-day absence from treatment",
+    "assessment": "Patient returns to clinic after 75 days without treatment contact. Patient apologetic, reports he \"gave up\" on the system and was \"tired of fighting for benefits.\" States he convinced himself he was \"fine\" and didn't need medication or therapy. Wife insisted he return to care after noticing worsening symptoms - irritability, social withdrawal, increased nightmares.\n\nPatient off all medications for approximately 10 weeks. Reports initial withdrawal symptoms (dizziness, irritability, \"brain zaps\") that resolved after 2 weeks. Subsequently felt \"okay for a while\" but symptoms gradually worsened over past month.\n\nCURRENT STATUS:\nPHQ-9: 18 (moderately severe depression - significant worsening)\nPCL-5: 52 (severe PTSD symptoms - significant worsening)\n\nPatient reports daily intrusive thoughts, nightmares 5-6 nights weekly, avoidance behaviors returned, depressed mood, anhedonia, low energy. Not working. Stopped attending VR (last session 9 weeks ago). Alcohol use resumed (2-3 beers nightly).\n\nSAFETY: Patient endorses passive suicidal ideation \"sometimes think everyone would be better off without me\" but denies plan or intent. States he would not act on thoughts due to family. [RED FLAG: Suicidal ideation re-emerged. Inconsistent with prior documentation suggesting this had resolved. No clear documentation of what changed, no comparison to baseline risk.]",
+    "plan": "Long discussion about medication discontinuation and its consequences. Patient now understands connection between stopping medication and symptom return. Agrees to restart sertraline. Will start at 100mg daily (lower than prior 150mg) to minimize side effects during reinitiation. Will increase to 150mg in 2 weeks if tolerated.\n\nSafety planning completed. Patient has crisis resources, agreed to contact provider or go to ED if suicidal thoughts intensify. Wife involved in safety planning.\n\nReferred back to therapy - patient agrees to resume monthly sessions. Encouraged to re-engage with VR. Workers' comp will need updated assessment given treatment gap and symptom relapse.\n\nFollow-up in 2 weeks for medication adjustment. Patient committed to treatment compliance this time. Discussed consequences of continued non-compliance including case closure and potential workers' comp benefit termination.",
+    "medications": ["Sertraline 100mg PO daily", "Trazodone 50mg PO qhs PRN"],
+    "vitals": {
+      "blood_pressure": "144/92",
+      "heart_rate": 96,
+      "weight": 182
+    }
+  },
+  {
+    "date": "2023-11-01",
+    "record_id": "MRN-2023-418",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Medication Management Follow-up",
+    "chief_complaint": "2-week follow-up after treatment resumption",
+    "assessment": "Patient returns for 2-week follow-up. Reports compliant with sertraline 100mg daily. Tolerating well without side effects. Some early improvement noted - mood \"slightly better,\" sleep improved with trazodone. Nightmares still frequent but less intense. \n\nPatient acknowledges treatment gap was \"a mistake.\" Expresses commitment to continued care. Re-engaged with therapy (attended 1 session with Dr. Martinez). Has not yet contacted VR to resume services but states he will.\n\nPHQ-9: 15 (improved from 18)\nPCL-5: 48 (improved from 52)\n\nEarly positive response to medication resumption. Safety: Denies current suicidal ideation.",
+    "plan": "Increase sertraline to 150mg daily (previous therapeutic dose). Patient tolerating reinitiation well. Continue trazodone PRN. Continue therapy monthly. Strongly encouraged VR re-engagement - patient to contact counselor this week. Follow-up in 4 weeks. Emphasized importance of continued compliance. Patient verbalizes commitment to treatment plan.",
+    "medications": ["Sertraline 150mg PO daily", "Trazodone 50mg PO qhs PRN"],
+    "vitals": {
+      "blood_pressure": "136/86",
+      "heart_rate": 88,
+      "weight": 181
+    }
+  },
+  {
+    "date": "2023-11-15",
+    "record_id": "MRN-2023-428",
+    "provider": "Attorney Records - Deposition Preparation",
+    "facility": "Defense Counsel's Office",
+    "record_type": "Pre-Deposition Medical Summary",
+    "chief_complaint": "Medical chronology for deposition preparation",
+    "assessment": "CONFIDENTIAL ATTORNEY WORK PRODUCT\nRe: Claimant Deposition Scheduled 12/5/23\n\nMEDICAL CHRONOLOGY SUMMARY FOR CROSS-EXAMINATION:\n\n1. INCONSISTENT TRAUMA NARRATIVE (Critical Impeachment Issue):\n   - Version 1 (1/18, 2/1/23): First responder, performed CPR 8 minutes\n   - Version 2 (2/15/23): Heard crash, got supervisor, returned to find EMS present\n   - Version 3 (4/5/23): Was in break room, heard crash, came running\n   - Employer witness (4/10/23): Claimant arrived 3-4 minutes after incident, did NOT perform CPR\n\n2. MALINGERING INDICATORS:\n   - SIMS validity testing: Score 38 (cutoff >16)\n   - Symptom magnification at IME vs. treating records\n   - Surveillance shows vigorous activity (basketball, moving furniture) inconsistent with claimed total disability\n   - Admission to Dr. Walsh (5/24/23): \"may have exaggerated a little\" during IME\n\n3. TREATMENT NON-COMPLIANCE:\n   - Multiple instances of medication non-compliance (3/29, 4/26)\n   - 75-day treatment gap (8/2-10/18/23) - stopped all treatment when feeling better\n   - Missed VR appointments during gap period\n\n4. FUNCTIONAL CAPACITY:\n   - PHQ-9 scores improved: 19→9 (1/25 to 4/26)\n   - PCL-5 scores improved: 58→38 (1/25 to 4/26)\n   - Treating psychiatrist notes (7/5/23): \"functional capacity appears good\"\n   - Surveillance confirms unrestricted physical capacity\n\n5. SECONDARY GAIN ISSUES:\n   - Workers' comp benefits ~$800/week\n   - Patient expressed fear of losing benefits multiple times in records\n   - Treatment engagement decreased after defense IME questioned disability\n   - Re-engaged after claimant's favorable IME\n\nDEPOSITION STRATEGY:\nFocus on timeline inconsistencies, malingering evidence, and functional capacity. Claimant's own statements about exaggeration are key. Surveillance video demonstrates capacity for substantial gainful activity.\n\nEXPECTED CLAIMANT RESPONSES:\n- Will claim memory fragmentation due to trauma\n- Will cite Dr. Reynolds' opinion supporting genuine PTSD\n- Will argue surveillance captured \"good days only\"\n- May become emotional when confronted with inconsistencies\n\nCOUNTER-ARGUMENTS:\nMemory fragmentation explains peripheral detail confusion, not fundamental contradictions about own role. Core fact (did he or did he not perform CPR) should be stable memory even in PTSD.",
+    "plan": "Deposition outline prepared. Video surveillance to be played during deposition. Medical records organized for cross-examination exhibits.",
+    "medications": [],
+    "vitals": {}
+  },
+  {
+    "date": "2023-11-29",
+    "record_id": "MRN-2023-419",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Medication Management Follow-up",
+    "chief_complaint": "Follow-up, treatment progress assessment",
+    "assessment": "Patient returned for routine follow-up. Medication compliance good per patient report and pill bottle check (appropriate number of pills remaining). Symptoms improving back toward prior baseline.\n\nPHQ-9: 11 (mild depression)\nPCL-5: 42 (moderate PTSD)\n\nBack to symptom levels seen before treatment gap. Patient re-engaged with VR, attended 2 sessions. Exploring job opportunities. Some anxiety about returning to work but motivated to try. Therapy ongoing monthly.\n\nFunctioning at home improved. Alcohol use minimal (occasional social drinking). Sleep adequate. Nightmares 2-3 weekly. Patient feeling more stable and hopeful about future.\n\nPatient anxious about upcoming deposition scheduled for 12/5. Provided psychoeducation about deposition process. Encouraged patient to discuss concerns with his attorney.",
+    "plan": "Continue current medication regimen. Symptom stability restored. Patient doing well with return to comprehensive treatment. Support VR efforts toward return to work. May need additional support around actual work transition when that occurs. Follow-up in 6 weeks. Patient aware to call if symptoms worsen or if additional support needed during work transition or deposition stress.",
+    "medications": ["Sertraline 150mg PO daily", "Trazodone 50mg PO qhs PRN"],
+    "vitals": {
+      "blood_pressure": "128/82",
+      "heart_rate": 82,
+      "weight": 180
+    }
+  },
+  {
+    "date": "2023-12-08",
+    "record_id": "MRN-2023-429",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Crisis Contact - Post-Deposition",
+    "chief_complaint": "Phone contact - Acute distress after deposition",
+    "assessment": "Patient called clinic in acute distress following deposition on 12/5/23. Patient reports deposition lasted 6 hours and was \"brutal.\" States defense attorney \"attacked my character\" and \"made me look like a liar and a faker.\"\n\nPatient describes being shown surveillance video during deposition and being questioned about activity level. States \"they twisted everything\" and \"made it look like I'm fine when I'm not.\"\n\nPatient particularly distressed by questions about changing story regarding CPR. Reports he \"couldn't explain\" the inconsistencies and \"just kept saying I don't remember clearly.\" Patient fears he \"looked like an idiot\" and \"hurt my case.\"\n\nCURRENT SYMPTOMS:\n- Increased nightmares (nightly since deposition)\n- Intrusive thoughts about deposition (\"replaying it in my head\")\n- Anxiety, poor concentration\n- Sleep disturbance\n- Increased alcohol use (4 beers nightly x 3 nights)\n- Mood \"terrible\"\n\nNo suicidal ideation. Patient denies desire to harm self. States he is \"just exhausted by all of this.\"\n\nPatient questions whether he should \"just give up and go back to work\" even though he doesn't feel ready. Financial stress mounting - workers' comp payments may be discontinued pending case resolution.",
+    "plan": "PHONE INTERVENTION:\n1. Normalized post-deposition distress\n2. Encouraged return to daily medication schedule (patient admits missed 2 doses this week)\n3. Discouraged alcohol use\n4. Reminded patient about therapy resources\n5. Discussed with patient's attorney need for support\n6. Scheduled urgent appointment for 12/11 (3 days out)\n\nCONCERN: Patient's distress is genuine and acute. Litigation process is clearly traumatizing regardless of validity of underlying disability claim. Patient may benefit from litigation stress counseling or support group.\n\nWill provide brief letter to workers' comp indicating patient remains in active treatment and deposition stress has caused temporary symptom exacerbation.",
+    "medications": ["Sertraline 150mg PO daily", "Trazodone 50mg PO qhs PRN"],
+    "vitals": {}
+  },
+  {
+    "date": "2023-12-20",
+    "record_id": "MRN-2023-420",
+    "provider": "Dr. Jennifer Walsh, MD",
+    "facility": "Behavioral Health Center",
+    "record_type": "Workers' Compensation Progress Report",
+    "chief_complaint": "Comprehensive treatment summary for workers' compensation",
+    "assessment": "WORKERS' COMPENSATION PROGRESS REPORT\n\nPatient: 42-year-old male\nClaim Number: WC-2022-89453\nDate of Injury: 12/15/2022\nDiagnoses: Post-Traumatic Stress Disorder, Major Depressive Disorder\n\nTREATMENT SUMMARY:\nPatient has been under my care since 1/25/2023 for work-related PTSD and depression following witnessed workplace fatality. Treatment has included medication management (sertraline) and coordination with trauma-focused psychotherapy.\n\nCOURSE:\nInitial 8 months showed steady improvement with combined medication and therapy. Patient achieved partial remission of depressive symptoms and significant reduction in PTSD symptoms (severe to moderate). FCE in March 2023 documented functional limitations related to warehouse environment but capacity for modified work.\n\nCOMPLICATIONS:\n1. Patient experienced 75-day treatment gap (August-October 2023) during which he discontinued medications and therapy independently. This resulted in symptom relapse.\n2. Patient resumed treatment October 2023 and has since re-stabilized at prior improvement level.\n3. Litigation stress has caused multiple symptom exacerbations - notably after IME (May 2023) and after deposition (December 2023).\n4. Patient has had periods of medication non-compliance that correlate with symptom worsening.\n\nCURRENT STATUS:\n- Depression: Mild (PHQ-9: 11)\n- PTSD: Moderate (PCL-5: 42)\n- Medication compliant on sertraline 150mg daily\n- Engaged in monthly therapy and vocational rehabilitation (intermittently)\n- Functioning at home appropriate\n- Work status: Not working; exploring alternative work through VR\n\nCOMPLEX CLINICAL PICTURE:\nThis case presents diagnostic and treatment challenges:\n\n1. GENUINE PSYCHIATRIC SYMPTOMS: Patient clearly has depression and trauma-related symptoms. Treatment response confirms diagnoses are real.\n\n2. UNCLEAR TRAUMA EXPOSURE: Patient's account of his role in workplace incident has varied across multiple tellings. Independent evidence (employer witness) contradicts patient's claim of performing CPR. HOWEVER, patient clearly witnessed traumatic workplace death - this alone can cause PTSD even without direct CPR involvement.\n\n3. SYMPTOM VALIDITY QUESTIONS: Some evidence suggests symptom exaggeration in high-stakes evaluation contexts (IME), while other evidence supports genuine impairment. Patient has admitted to \"possibly exaggerating\" when anxious about benefits.\n\n4. FUNCTIONAL CAPACITY: Patient demonstrates good functional capacity in many domains (family, social, recreational activities). Impairment appears SPECIFIC to warehouse/industrial work settings rather than global disability.\n\n5. LITIGATION STRESS: Workers' comp process itself has become significant stressor causing symptom fluctuations.\n\nPROGNOSIS:\nGuarded for return to warehouse environment. Fair for return to work in alternative setting. Patient has demonstrated capacity for symptom improvement with treatment compliance. Ongoing psychiatric care will be needed. Patient has not reached maximum medical improvement.\n\nCLINICAL OPINION ON WORK CAPACITY:\nFrom purely clinical standpoint (setting aside forensic questions about symptom validity), patient currently functions well in non-work domains but maintains strong aversion to warehouse/industrial settings. This appears to be trauma-specific phobic avoidance rather than malingering. Patient would likely benefit from graduated exposure to work settings but has been resistant to this approach.\n\nPatient's functional capacity in non-warehouse setting appears GOOD based on observed functioning, symptom scores, and treatment response. Total disability status is questionable from clinical perspective.\n\nRECOMMENDATIONS:\n1. Continue current psychiatric treatment\n2. Support vocational rehabilitation efforts - patient needs to actively engage\n3. Permanent work restrictions: Avoid warehouse/industrial environments where incident occurred\n4. Consider work trial with graduated return to alternative work setting\n5. Re-evaluate work capacity in 3 months\n6. Address litigation stress as barrier to recovery\n\nCAUSATION:\nPatient's psychiatric conditions are related to workplace incident of 12/15/2022. The EXTENT of traumatic exposure and resulting impairment remain questions for forensic determination. Patient's symptoms are real but may be influenced by litigation context and secondary gain factors.\n\nDISCLOSURE: I am patient's treating psychiatrist. This report reflects treatment perspective. Forensic questions regarding malingering, symptom validity, and disability determination are beyond scope of treating relationship and should be addressed through independent evaluation process.",
+    "plan": "Continue treatment as outlined. Next appointment scheduled 1/08/2024. Will provide updates to workers' comp as treatment progresses and work status changes. Patient aware that disability status determination is pending resolution of workers' comp case.",
+    "medications": ["Sertraline 150mg PO daily", "Trazodone 50mg PO qhs PRN"],
+    "vitals": {}
+  }
+]

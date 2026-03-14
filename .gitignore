@@ -41,6 +41,4 @@ yarn-error.log*
 next-env.d.ts
 
 # innards
-/docs
-backend/cases/
 backend/venv

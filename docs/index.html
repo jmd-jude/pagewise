@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Precision Gap — PageWise</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --ink: #1a1a18;
+    --paper: #f5f2eb;
+    --rule: #c8c0b0;
+    --accent: #b34a2a;
+    --accent-light: #e8d5ce;
+    --muted: #6b6560;
+    --success: #2a5c3f;
+    --success-light: #d4e8dc;
+    --warn: #7a4a1a;
+    --warn-light: #f0e0c8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── DECK SHELL ── */
+  .deck {
+    position: fixed;
+    inset: 0;
+    bottom: 64px;
+    overflow: hidden;
+  }
+
+  /* ── SLIDES ── */
+  .slide {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(16px);
+    transition: opacity 0.28s ease, transform 0.28s ease;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .slide.exit-up {
+    opacity: 0;
+    transform: translateY(-16px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .slide-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 40px 40px;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Diagram slide needs more width */
+  .slide--wide .slide-inner {
+    max-width: 920px;
+  }
+
+  /* Text-heavy slides: top-align */
+  .slide--top .slide-inner {
+    justify-content: flex-start;
+  }
+
+  /* ── SLIDE TYPOGRAPHY ── */
+  .slide-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .slide-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 28px;
+    letter-spacing: -0.01em;
+  }
+
+  .slide-heading em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .slide-subheading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 15px;
+    line-height: 1.75;
+    margin-bottom: 16px;
+    color: var(--ink);
+    max-width: 580px;
+  }
+
+  p:last-child { margin-bottom: 0; }
+  p em { font-style: italic; }
+  p strong { font-weight: 500; }
+
+  /* ── TITLE SLIDE ── */
+  .title-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .title-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 58px;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    max-width: 560px;
+  }
+
+  .title-heading em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .title-rule {
+    width: 48px;
+    height: 2px;
+    background: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  .title-sub {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 460px;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-left: 3px solid var(--accent);
+    padding: 12px 18px;
+    margin: 20px 0;
+    background: var(--accent-light);
+    border-radius: 0 2px 2px 0;
+    max-width: 580px;
+  }
+
+  .callout p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--warn);
+  }
+
+  .callout p strong {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+  }
+
+  .callout-success {
+    border-left: 3px solid var(--success);
+    background: var(--success-light);
+  }
+
+  .callout-success p { color: var(--success); }
+
+  /* ── STAT ROW ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1.5px solid var(--ink);
+    margin: 24px 0;
+    max-width: 480px;
+  }
+
+  .stat-cell {
+    padding: 20px 22px;
+  }
+
+  .stat-cell:first-child {
+    border-right: 1.5px solid var(--ink);
+  }
+
+  .stat-context {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .stat-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 52px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-number.bad { color: var(--accent); }
+  .stat-number.good { color: var(--success); }
+
+  .stat-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── THRESHOLD TABLE ── */
+  .threshold-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13px;
+    max-width: 580px;
+  }
+
+  .threshold-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .threshold-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .threshold-table tr:last-child td { border-bottom: none; }
+
+  .risk-low  { color: var(--success); font-weight: 500; font-family: 'DM Mono', monospace; font-size: 10px; }
+  .risk-mid  { color: var(--warn);    font-weight: 500; font-family: 'DM Mono', monospace; font-size: 10px; }
+  .risk-high { color: var(--accent);  font-weight: 500; font-family: 'DM Mono', monospace; font-size: 10px; }
+
+  /* ── CITATION ── */
+  .citation {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    border-left: 2px solid var(--rule);
+    padding: 8px 14px;
+    margin: 14px 0;
+    line-height: 1.6;
+    max-width: 520px;
+  }
+
+  /* ── DIAGRAM ── */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1.5px solid var(--ink);
+    margin-bottom: 0;
+  }
+
+  .col { padding: 0; }
+  .col:first-child { border-right: 1.5px solid var(--ink); }
+
+  .col-header {
+    padding: 12px 18px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .col-header.enterprise { background: var(--warn-light); }
+  .col-header.pipeline   { background: var(--success-light); }
+
+  .col-header .col-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 3px;
+  }
+
+  .col-header .col-label.enterprise { color: var(--warn); }
+  .col-header .col-label.pipeline   { color: var(--success); }
+
+  .col-header h4 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .col-body { padding: 18px 16px; }
+
+  /* oracle */
+  .oracle-flow { display: flex; flex-direction: column; align-items: center; }
+
+  .doc-stack {
+    width: 100%;
+    background: white;
+    border: 1.5px solid var(--rule);
+    border-radius: 2px;
+    padding: 10px 12px;
+    position: relative;
+  }
+
+  .doc-stack::before {
+    content: '';
+    position: absolute;
+    background: white;
+    border: 1.5px solid var(--rule);
+    border-radius: 2px;
+    top: -4px; left: 4px; right: -4px; bottom: 4px;
+    z-index: -1;
+  }
+
+  .doc-stack::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border: 1.5px solid var(--rule);
+    border-radius: 2px;
+    top: -8px; left: 8px; right: -8px; bottom: 8px;
+    z-index: -2;
+  }
+
+  .doc-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+
+  .doc-size  { font-size: 12px; font-weight: 500; }
+  .doc-pages { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+  .arrow { display: flex; flex-direction: column; align-items: center; padding: 4px 0; gap: 2px; }
+  .arrow-line { width: 1.5px; height: 16px; background: var(--rule); }
+  .arrow-head {
+    width: 0; height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid var(--rule);
+  }
+
+  .arrow-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .ai-box {
+    width: 100%;
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+
+  .ai-box .ai-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .ai-box.warn { background: var(--warn-light); border-color: var(--warn); }
+  .ai-box.warn .ai-label { color: var(--warn); }
+
+  .attention-bar-wrapper { width: 100%; margin: 6px 0 4px; }
+  .attention-bar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 3px;
+  }
+
+  .attention-bar {
+    height: 6px;
+    border-radius: 1px;
+    background: linear-gradient(to right, var(--warn) 0%, var(--warn) 35%, #d4975a 60%, #e8d5ce 100%);
+    border: 1px solid rgba(122,74,26,0.3);
+  }
+
+  .attention-bar-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3px;
+  }
+
+  .attention-bar-labels span {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    color: var(--muted);
+  }
+
+  .ai-box .ai-desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
+
+  .output-box {
+    width: 100%;
+    border: 1.5px solid var(--rule);
+    border-radius: 2px;
+    padding: 10px 12px;
+    background: white;
+  }
+
+  .output-box .out-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+
+  .coverage-meter { margin-bottom: 6px; }
+  .coverage-meter-label { display: flex; justify-content: space-between; margin-bottom: 3px; }
+  .coverage-meter-label span { font-size: 11px; }
+  .coverage-meter-label .pct { font-family: 'DM Mono', monospace; font-weight: 500; }
+  .coverage-meter-label .pct.bad { color: var(--accent); }
+
+  .bar-track { height: 5px; background: var(--rule); border-radius: 1px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 1px; }
+  .bar-fill.bad  { background: var(--accent); }
+  .bar-fill.good { background: var(--success); }
+
+  /* pipeline */
+  .pipeline-stages { display: flex; flex-direction: column; }
+
+  .stage {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .stage:last-child { border-bottom: none; }
+
+  .stage-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--success);
+    min-width: 16px;
+    padding-top: 2px;
+  }
+
+  .stage-title { font-size: 12px; font-weight: 500; margin-bottom: 2px; }
+  .stage-desc  { font-size: 10px; color: var(--muted); line-height: 1.4; }
+
+  .stage-chips { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+
+  .chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    padding: 2px 5px;
+    border-radius: 1px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .chip.ai   { background: var(--success-light); color: var(--success); border: 1px solid var(--success); }
+  .chip.code { background: #e8eef5; color: #2a4a6b; border: 1px solid #9ab0c8; }
+
+  .chunk-visual { display: flex; gap: 2px; margin: 4px 0 2px; align-items: flex-end; }
+
+  .chunk {
+    flex: 1;
+    background: var(--success-light);
+    border: 1px solid var(--success);
+    border-radius: 1px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    color: var(--success);
+  }
+
+  .chunk.active { background: var(--success); color: white; height: 28px; }
+  .chunk-plus   { font-size: 9px; color: var(--rule); align-self: center; }
+
+  /* principles below diagram */
+  .principles-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border: 1.5px solid var(--ink);
+    border-top: none;
+  }
+
+  .principle-cell {
+    padding: 14px 16px;
+    border-right: 1.5px solid var(--ink);
+  }
+
+  .principle-cell:last-child { border-right: none; }
+
+  .principle-icon  { font-size: 13px; margin-bottom: 5px; }
+  .principle-title { font-family: 'DM Serif Display', serif; font-size: 13px; margin-bottom: 5px; }
+  .principle-body  { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  /* ── WORKFLOW LIST ── */
+  .workflow-list {
+    margin: 20px 0;
+    border: 1.5px solid var(--ink);
+    max-width: 580px;
+  }
+
+  .workflow-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .workflow-item:last-child { border-bottom: none; }
+
+  .workflow-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--success);
+    font-weight: 500;
+    min-width: 18px;
+    padding-top: 2px;
+  }
+
+  .workflow-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .workflow-desc  { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ── PROPOSAL BOX ── */
+  .proposal-box {
+    border: 1.5px solid var(--ink);
+    margin: 20px 0;
+    max-width: 580px;
+  }
+
+  .proposal-box-header {
+    padding: 12px 18px;
+    border-bottom: 1.5px solid var(--ink);
+    background: var(--success-light);
+  }
+
+  .proposal-box-header .p-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--success);
+    margin-bottom: 3px;
+  }
+
+  .proposal-box-header h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .proposal-box-body {
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .proposal-row { display: flex; gap: 12px; }
+
+  .proposal-icon {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    min-width: 16px;
+    padding-top: 2px;
+  }
+
+  .proposal-text { font-size: 14px; line-height: 1.65; max-width: none; }
+
+  /* ── FOOTNOTE ── */
+  .footnote {
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+    margin-top: 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+    line-height: 1.7;
+    max-width: 580px;
+  }
+
+  .footnote a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ── NAV BAR ── */
+  .deck-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    border-top: 1px solid var(--rule);
+    background: var(--paper);
+    z-index: 100;
+  }
+
+  .nav-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    background: none;
+    border: none;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.15s;
+  }
+
+  .nav-btn:hover { opacity: 0.6; }
+
+  .nav-btn:disabled {
+    opacity: 0.2;
+    cursor: default;
+  }
+
+  .nav-btn:disabled:hover { opacity: 0.2; }
+
+  .nav-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .nav-counter {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .nav-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .nav-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--rule);
+    transition: background 0.2s;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+  }
+
+  .nav-dot.active { background: var(--ink); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .slide-inner { padding: 36px 24px 28px; }
+    .slide-heading { font-size: 34px; }
+    .title-heading { font-size: 40px; }
+    .comparison { grid-template-columns: 1fr; }
+    .col:first-child { border-right: none; border-bottom: 1.5px solid var(--ink); }
+    .principles-row { grid-template-columns: 1fr; }
+    .principle-cell { border-right: none; border-bottom: 1.5px solid var(--ink); }
+    .principle-cell:last-child { border-bottom: none; }
+    .stat-row { grid-template-columns: 1fr; max-width: 100%; }
+    .stat-cell:first-child { border-right: none; border-bottom: 1.5px solid var(--ink); }
+    .deck-nav { padding: 0 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- ── 01 TITLE ── -->
+  <div class="slide active" id="slide-0">
+    <div class="slide-inner">
+      <div class="title-label">PageWise — Architecture &amp; Proposal</div>
+      <h1 class="title-heading">The Precision<br><em>Gap.</em></h1>
+      <div class="title-rule"></div>
+      <p class="title-sub">Enterprise AI falls short for high-stakes document work. This is why — and what a different approach looks like.</p>
+    </div>
+  </div>
+
+  <!-- ── 02 FLUENT. INCOMPLETE. ── -->
+  <div class="slide" id="slide-1">
+    <div class="slide-inner">
+      <div class="slide-label">The Problem</div>
+      <h2 class="slide-heading">Fluent.<br>Incomplete.</h2>
+      <p>Enterprise AI tools are genuinely good at drafting emails, answering questions about a document, generating meeting summaries. Legal and medical professionals have been early adopters, and for good reason — the use cases seem obvious.</p>
+      <p>For work that requires <em>complete and traceable</em> extraction from large documents, there is a structural problem. Not a catastrophic one. The output looks right, reads well, and is wrong in ways that only become visible when you check it carefully against the original.</p>
+      <p>When asked to produce a complete topical summary of a 250-page legal deposition, a capable enterprise AI model produced 60 entries. A page-by-page pipeline applied to the same document produced 77 — every one traced to a specific page range in the original.</p>
+      <div class="stat-row">
+        <div class="stat-cell">
+          <div class="stat-context">Enterprise AI — Single Pass</div>
+          <div class="stat-number bad">60</div>
+          <div class="stat-desc">topical entries produced</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-context">Structured Pipeline</div>
+          <div class="stat-number good">77</div>
+          <div class="stat-desc">topical entries, every page cited</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 03 ATTENTION DILUTES. ── -->
+  <div class="slide" id="slide-2">
+    <div class="slide-inner slide--top">
+      <div class="slide-label">The Constraint</div>
+      <h2 class="slide-heading">Attention<br>dilutes.</h2>
+      <p>Modern models can ingest hundreds of thousands of words in a single pass. The problem is not whether the document <em>fits</em>. It is what happens to the model's attention as the document gets longer.</p>
+      <p>A person reading a 300-page deposition for every substantive topic works page by page, building a running index. A model given the same 300 pages as a single prompt processes everything at once — and generates output that reflects its overall impression. Prominent topics, repeated across the document, surface reliably. Topics that appear once, briefly, in the middle of a long section, do not.</p>
+      <div class="callout">
+        <p><strong>Liu et al. (2024)</strong> — "Lost in the Middle: How Language Models Use Long Contexts," <em>Transactions of the Association for Computational Linguistics</em> — found that performance on information retrieval tasks degrades significantly when relevant information appears in the middle of a long context, even for models designed for long-context use.</p>
+      </div>
+      <div class="citation">Du et al. (2025), EMNLP — performance degradation begins well before context limits are reached. In some models, a large portion of the drop occurs within the first 7,000 tokens, far below stated capacity. The problem is not running out of room.</div>
+    </div>
+  </div>
+
+  <!-- ── 04 THE THRESHOLD. ── -->
+  <div class="slide" id="slide-3">
+    <div class="slide-inner">
+      <div class="slide-label">When It Matters</div>
+      <h2 class="slide-heading">The threshold.</h2>
+      <p>Short documents — under 50 pages — typically work reliably in a single pass. The risk curve steepens as document length grows. For expert witness and medical-legal work, most of the important material lives at exactly the lengths where the gap is largest.</p>
+      <table class="threshold-table">
+        <thead>
+          <tr>
+            <th>Document Length</th>
+            <th>Tokens</th>
+            <th>Risk</th>
+            <th>Implication</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Under 50 pages</td>
+            <td>&lt; 25k</td>
+            <td><span class="risk-low">Low</span></td>
+            <td>Single-pass typically adequate</td>
+          </tr>
+          <tr>
+            <td>60–100 pages</td>
+            <td>30–50k</td>
+            <td><span class="risk-mid">Moderate</span></td>
+            <td>Degradation begins; spot-check recommended</td>
+          </tr>
+          <tr>
+            <td>150–200 pages</td>
+            <td>75–100k</td>
+            <td><span class="risk-high">High</span></td>
+            <td>Systematic omissions expected</td>
+          </tr>
+          <tr>
+            <td>250–300 pages</td>
+            <td>125–150k</td>
+            <td><span class="risk-high">Assume the gap</span></td>
+            <td>40–60% of substantive topics missed</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── 05 PROMPTING HAS A CEILING. ── -->
+  <div class="slide" id="slide-4">
+    <div class="slide-inner">
+      <div class="slide-label">Root Cause</div>
+      <h2 class="slide-heading">Prompting has<br>a ceiling.</h2>
+      <p>The natural response when an AI tool underperforms is to write a better prompt — be more specific, give an example, tell it to be thorough. For many tasks, this works.</p>
+      <p>For completeness over long documents, it does not. The model is not <em>choosing</em> to skip topics. It is producing the best output it can from a single pass over a very large input. Telling it to be more thorough does not change the underlying constraint.</p>
+      <div class="callout">
+        <p>Across multiple iterations in testing — with progressively more explicit coverage requirements, structured output formats, and quality checklists — coverage plateaued consistently at 40–60 percent of the substantive testimony in a 300-page deposition. <strong>The ceiling did not move because the instructions improved. It moved only when the architecture changed.</strong></p>
+      </div>
+      <p>This is an architectural constraint, not a configuration problem. Better prompting will not close it.</p>
+    </div>
+  </div>
+
+  <!-- ── 06 ARCHITECTURE, NOT QUERY. ── -->
+  <div class="slide slide--wide slide--top" id="slide-5">
+    <div class="slide-inner">
+      <div class="slide-label">The Solution</div>
+      <h2 class="slide-heading" style="font-size:38px; margin-bottom:20px;">Architecture,<br>not query.</h2>
+      <p style="margin-bottom:20px;">Let AI do what it is good at — reading a bounded piece of text and extracting structured information from it. Let software handle ordering, deduplication, completeness verification, and citation formatting.</p>
+
+      <div class="comparison">
+        <div class="col">
+          <div class="col-header enterprise">
+            <div class="col-label enterprise">Approach A</div>
+            <h4>Enterprise AI — Single-Pass Oracle</h4>
+          </div>
+          <div class="col-body">
+            <div class="oracle-flow">
+              <div class="doc-stack">
+                <div class="doc-label">Input</div>
+                <div class="doc-size">Full transcript, 300 pages</div>
+                <div class="doc-pages">~150,000 tokens, delivered at once</div>
+              </div>
+              <div class="arrow">
+                <div class="arrow-line"></div>
+                <div class="arrow-head"></div>
+                <div class="arrow-label">single prompt</div>
+              </div>
+              <div class="ai-box warn">
+                <div class="ai-label">AI Model — Single Pass</div>
+                <div class="attention-bar-wrapper">
+                  <div class="attention-bar-label">Attention distribution</div>
+                  <div class="attention-bar"></div>
+                  <div class="attention-bar-labels">
+                    <span>Page 1 — strong</span>
+                    <span>Page 300 — fades</span>
+                  </div>
+                </div>
+                <div class="ai-desc">Model holds entire document in working memory. Attention dilutes across 300 pages; prominent early topics dominate.</div>
+              </div>
+              <div class="arrow"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+              <div class="output-box">
+                <div class="out-label">Output</div>
+                <div class="coverage-meter">
+                  <div class="coverage-meter-label">
+                    <span>Coverage</span>
+                    <span class="pct bad">~60%</span>
+                  </div>
+                  <div class="bar-track"><div class="bar-fill bad" style="width:60%"></div></div>
+                </div>
+                <div style="font-size:11px; color:var(--muted); line-height:1.5; margin-top:6px;">Fluent. Organized. Missing middle-transcript testimony — consistently and silently.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="col-header pipeline">
+            <div class="col-label pipeline">Approach B</div>
+            <h4>Structured Pipeline — AI as Step, Not Oracle</h4>
+          </div>
+          <div class="col-body">
+            <div class="pipeline-stages">
+              <div class="stage">
+                <div class="stage-num">01</div>
+                <div class="stage-content">
+                  <div class="stage-title">Segment</div>
+                  <div class="stage-desc">Document divided into natural units — one page at a time. Each unit is within the model's reliable focus range.</div>
+                  <div class="chunk-visual">
+                    <div class="chunk">p.1</div>
+                    <div class="chunk">p.2</div>
+                    <div class="chunk active">p.3</div>
+                    <div class="chunk">p.4</div>
+                    <div class="chunk">p.5</div>
+                    <span class="chunk-plus">···</span>
+                  </div>
+                  <div class="stage-chips"><span class="chip code">Software</span></div>
+                </div>
+              </div>
+              <div class="stage">
+                <div class="stage-num">02</div>
+                <div class="stage-content">
+                  <div class="stage-title">Contextualize</div>
+                  <div class="stage-desc">Each page sent with adjacent pages as context — the model sees a window, not an island.</div>
+                  <div class="stage-chips"><span class="chip code">Software</span></div>
+                </div>
+              </div>
+              <div class="stage">
+                <div class="stage-num">03</div>
+                <div class="stage-content">
+                  <div class="stage-title">Extract per unit</div>
+                  <div class="stage-desc">For each page: one focused question. Does a new topic begin here? Model operates on bounded, verifiable input.</div>
+                  <div class="stage-chips"><span class="chip ai">AI — focused task</span></div>
+                </div>
+              </div>
+              <div class="stage">
+                <div class="stage-num">04</div>
+                <div class="stage-content">
+                  <div class="stage-title">Assemble in code</div>
+                  <div class="stage-desc">Outputs sorted, deduplicated, and formatted with page-level citations by software. No AI in the assembly step.</div>
+                  <div class="stage-chips"><span class="chip code">Software — no AI</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="principles-row">
+        <div class="principle-cell">
+          <div class="principle-icon">◎</div>
+          <div class="principle-title">Substantive Omission</div>
+          <div class="principle-body">Enterprise AI doesn't flag what it skips. The missing testimony appears nowhere — until opposing counsel asks.</div>
+        </div>
+        <div class="principle-cell">
+          <div class="principle-icon">◎</div>
+          <div class="principle-title">Verifiable Citations</div>
+          <div class="principle-body">Each entry cites the exact page range in the original. Every claim is traceable, every gap is visible.</div>
+        </div>
+        <div class="principle-cell">
+          <div class="principle-icon">◎</div>
+          <div class="principle-title">Hallucination Floor</div>
+          <div class="principle-body">One page at a time — the model has nowhere to fabricate from. Bounded context eliminates the conditions for confabulation.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 07 BUILT. ── -->
+  <div class="slide" id="slide-6">
+    <div class="slide-inner">
+      <div class="slide-label">Current State</div>
+      <h2 class="slide-heading">Built.</h2>
+      <p>This is a working proof-of-concept — not a proposal to explore an architecture. It already handles structured extraction and analysis across three workflows.</p>
+      <div class="workflow-list">
+        <div class="workflow-item">
+          <div class="workflow-num">01</div>
+          <div>
+            <div class="workflow-title">Deposition Summaries</div>
+            <div class="workflow-desc">Processes transcripts page by page, with each page examined in context of its neighbors. Assembles a complete topical index with page-level citations. Every page accounted for.</div>
+          </div>
+        </div>
+        <div class="workflow-item">
+          <div class="workflow-num">02</div>
+          <div>
+            <div class="workflow-title">Medical Chronologies</div>
+            <div class="workflow-desc">Extracts diagnoses, medications, providers, and treatment decisions from medical record sets. Constructs a timeline with contradiction detection and gap identification. Each finding traced to source.</div>
+          </div>
+        </div>
+        <div class="workflow-item">
+          <div class="workflow-num">03</div>
+          <div>
+            <div class="workflow-title">Document Indexing</div>
+            <div class="workflow-desc">Each document processed individually to extract structured metadata: date, type, page count, subject, key terms. Software assembles and sorts the index.</div>
+          </div>
+        </div>
+      </div>
+      <p>Each output can be reviewed, edited, and annotated by a practitioner before delivery. The system tracks what the AI produced versus what the expert modified — a distinction that matters for legal defensibility.</p>
+    </div>
+  </div>
+
+  <!-- ── 08 THE ARRANGEMENT. ── -->
+  <div class="slide" id="slide-7">
+    <div class="slide-inner">
+      <div class="slide-label">Proposal</div>
+      <h2 class="slide-heading">The<br>arrangement.</h2>
+      <p>The full, production-ready version of these three workflows — defined together, against acceptance criteria agreed on in advance — at no development cost.</p>
+      <div class="proposal-box">
+        <div class="proposal-box-header">
+          <div class="p-label">Customer-Zero Engagement</div>
+          <h3>Risk is entirely mine to carry.</h3>
+        </div>
+        <div class="proposal-box-body">
+          <div class="proposal-row">
+            <div class="proposal-icon">→</div>
+            <div class="proposal-text"><strong>You bring</strong> the real workflows, the real documents, and the practitioner judgment to evaluate the output. Full visibility into what is being built and why.</div>
+          </div>
+          <div class="proposal-row">
+            <div class="proposal-icon">→</div>
+            <div class="proposal-text"><strong>I bring</strong> the product engineering and the architecture. Development cost: nothing. No ongoing licensing cost.</div>
+          </div>
+          <div class="proposal-row">
+            <div class="proposal-icon">→</div>
+            <div class="proposal-text"><strong>Acceptance criteria</strong> are defined before a line of production code is written. If the system meets the bar, we have a conversation about what that is worth.</div>
+          </div>
+          <div class="proposal-row">
+            <div class="proposal-icon">→</div>
+            <div class="proposal-text"><strong>If it does not meet the bar</strong> — no fees, no obligation.</div>
+          </div>
+        </div>
+      </div>
+      <p>Some of these workflows carry direct costs today, paid to incumbent service providers. That is a potential profit center for both parties — not just a cost reduction.</p>
+    </div>
+  </div>
+
+  <!-- ── 09 A WORKING SESSION. ── -->
+  <div class="slide" id="slide-8">
+    <div class="slide-inner">
+      <div class="slide-label">Next Step</div>
+      <h2 class="slide-heading">A working<br>session.</h2>
+      <p>Not a pitch. A collaborative working session where we walk through each workflow, I show what exists today, and we begin to define what "good enough" looks like for each one.</p>
+      <p>From there: scope, acceptance criteria, a timeline.</p>
+
+      <div class="footnote">
+        References — Liu, N. F., et al. (2024). Lost in the Middle: How Language Models Use Long Contexts. <em>Transactions of the Association for Computational Linguistics</em>, 12, 157–173. · Du, Y., et al. (2025). Context Length Alone Hurts LLM Performance Despite Perfect Retrieval. <em>Findings of EMNLP 2025</em>. · Docling: <a href="https://arxiv.org/abs/2408.09869">arxiv.org/abs/2408.09869</a> · DocETL: <a href="https://arxiv.org/abs/2410.12189">arxiv.org/abs/2410.12189</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- ── NAV ── -->
+<nav class="deck-nav" id="deckNav">
+  <button class="nav-btn" id="navPrev" disabled>← prev</button>
+  <div class="nav-center">
+    <span class="nav-counter" id="navCounter">01 / 09</span>
+    <div class="nav-dots" id="navDots"></div>
+  </div>
+  <button class="nav-btn" id="navNext">next →</button>
+</nav>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let current = 0;
+
+  const prevBtn = document.getElementById('navPrev');
+  const nextBtn = document.getElementById('navNext');
+  const counter = document.getElementById('navCounter');
+  const dotsContainer = document.getElementById('navDots');
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', `Slide ${i + 1}`);
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  function goTo(n, direction) {
+    if (n < 0 || n >= total || n === current) return;
+
+    const outSlide = slides[current];
+    const inSlide  = slides[n];
+    const forward  = direction === undefined ? n > current : direction;
+
+    // Exit current
+    outSlide.classList.remove('active');
+    outSlide.classList.add('exit-up');
+    outSlide.addEventListener('transitionend', () => {
+      outSlide.classList.remove('exit-up');
+    }, { once: true });
+
+    // Enter next — briefly set initial state
+    inSlide.style.transform = forward ? 'translateY(16px)' : 'translateY(-16px)';
+    inSlide.style.opacity = '0';
+    inSlide.style.pointerEvents = 'none';
+
+    // Force reflow then activate
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        inSlide.style.transform = '';
+        inSlide.style.opacity = '';
+        inSlide.style.pointerEvents = '';
+        inSlide.classList.add('active');
+        // Scroll slide to top on advance
+        inSlide.scrollTop = 0;
+      });
+    });
+
+    current = n;
+    updateNav();
+  }
+
+  function updateNav() {
+    counter.textContent =
+      String(current + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+
+    dotsContainer.querySelectorAll('.nav-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === current);
+    });
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1, false));
+  nextBtn.addEventListener('click', () => goTo(current + 1, true));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1, true);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1, false);
+  });
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  document.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    // Only trigger on predominantly horizontal swipe
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      if (dx < 0) goTo(current + 1, true);
+      else         goTo(current - 1, false);
+    }
+  }, { passive: true });
+</script>
+
+</body>
+</html>
