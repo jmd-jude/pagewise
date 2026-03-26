@@ -36,6 +36,14 @@ MASTER_FOLDER_ID = '368031337788'
 
 REQUEST_DELAY = 0.03  # seconds between API calls — increase if rate limited
 
+# Extensions that can never have pages — skip Bates inference for these
+NON_PAGE_EXTENSIONS = {
+    '.wav', '.mp3', '.mp4', '.avi', '.mov', '.mkv',
+    '.flac', '.aac', '.ogg', '.wma', '.m4a', '.m4v',
+    '.wmv', '.mpg', '.mpeg', '.webm', '.m4b',
+    '.zip', '.gz', '.tar', '.rar', '.7z', 'html', '.json','.wgva','.xml'
+}
+
 
 def infer_page_count_from_bates(filename):
     """
@@ -146,10 +154,14 @@ def walk_box_folder(client, folder_id, path="", on_file=None):
                         if page_count is None:
                             page_count = 'N/A'
                 else:
-                    page_count = infer_page_count_from_bates(item.name)
-                    page_source = 'bates_inferred' if page_count is not None else 'N/A'
-                    if page_count is None:
+                    if ext in NON_PAGE_EXTENSIONS:
                         page_count = 'N/A'
+                        page_source = 'N/A'
+                    else:
+                        page_count = infer_page_count_from_bates(item.name)
+                        page_source = 'bates_inferred' if page_count is not None else 'N/A'
+                        if page_count is None:
+                            page_count = 'N/A'
 
                 raw_size = getattr(item, 'size', None)
                 size_kb = round(raw_size / 1024, 1) if raw_size else 'N/A'
@@ -161,6 +173,8 @@ def walk_box_folder(client, folder_id, path="", on_file=None):
                     'Name': item.name,
                     'Path': current_path,
                     'Folder': folder_path,
+                    'Folder ID': folder_id,
+                    'Folder URL': f'https://app.box.com/folder/{folder_id}',
                     'Extension': ext,
                     'Page Count': page_count,
                     'Page Count Source': page_source,
@@ -168,6 +182,7 @@ def walk_box_folder(client, folder_id, path="", on_file=None):
                     'Created': created[:10] if created else 'N/A',
                     'Modified': modified[:10] if modified else 'N/A',
                     'File ID': item.id,
+                    'File URL': f'https://app.box.com/file/{item.id}',
                 })
                 time.sleep(REQUEST_DELAY)
 
@@ -252,6 +267,21 @@ def print_stats(manifest, output_file):
     print(f"  Manifest  → {output_file}")
 
 
+def annotate_duplicates(manifest):
+    """
+    Adds a 'Duplicate' column to each row — 'Yes' if another row shares
+    the same Name + Size (KB), 'No' otherwise.
+    Also returns a filtered list of just the duplicate rows.
+    """
+    key_counts = collections.Counter(
+        (r['Name'], r['Size (KB)']) for r in manifest
+    )
+    for row in manifest:
+        row['Duplicate'] = 'Yes' if key_counts[(row['Name'], row['Size (KB)'])] > 1 else 'No'
+    duplicates = [r for r in manifest if r['Duplicate'] == 'Yes']
+    return manifest, duplicates
+
+
 def main():
     auth = OAuth2(client_id=None, client_secret=None, access_token=DEV_TOKEN)
     client = Client(auth)
@@ -276,14 +306,26 @@ def main():
     slug = re.sub(r'[^\w]+', '_', case_root).strip('_').lower()
     output_file  = f'{slug}_manifest.csv'
     summary_file = f'{slug}_summary.csv'
+    dupes_file   = f'{slug}_duplicates.csv'
+
+    manifest, duplicates = annotate_duplicates(manifest)
+
+    fieldnames = ['Name', 'Path', 'Folder', 'Folder ID', 'Folder URL', 'Extension',
+                  'Page Count', 'Page Count Source',
+                  'Size (KB)', 'Created', 'Modified', 'File ID', 'File URL', 'Duplicate']
 
     with open(output_file, 'w', newline='', encoding='utf-8') as f:
-        fieldnames = ['Name', 'Path', 'Folder', 'Extension',
-                      'Page Count', 'Page Count Source',
-                      'Size (KB)', 'Created', 'Modified', 'File ID']
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(manifest)
+
+    dup_rows_sorted = sorted(duplicates, key=lambda r: (r['Name'], r['Size (KB)']))
+    with open(dupes_file, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(dup_rows_sorted)
+    print(f"  Duplicates → {dupes_file}  ({len(dup_rows_sorted)} instances, "
+          f"{len(set((r['Name'], r['Size (KB)']) for r in duplicates))} unique files)")
 
     build_and_write_summary(manifest, summary_file)
     print_stats(manifest, output_file)

@@ -115,6 +115,64 @@ def group_by_section(rows, skip_folders):
     return case_root, sections
 
 
+def write_duplicates_sheet(wb, rows):
+    """Add a 'Duplicates' worksheet listing all files that share Name + Size."""
+    dup_rows = [r for r in rows if r.get('Duplicate', 'No') == 'Yes']
+    if not dup_rows:
+        return  # nothing to add
+
+    ws = wb.create_sheet(title='Duplicates')
+
+    # Column widths
+    ws.column_dimensions['A'].width = 45   # File Name
+    ws.column_dimensions['B'].width = 10   # Type
+    ws.column_dimensions['C'].width = 12   # Size
+    ws.column_dimensions['D'].width = 65   # Folder Path
+
+    # Header row
+    headers = ['FILE NAME', 'TYPE', 'SIZE', 'FOLDER PATH']
+    for col, h in enumerate(headers, 1):
+        c = ws.cell(row=1, column=col, value=h)
+        c.fill = BLACK
+        c.font = WHITE_BOLD
+        c.alignment = Alignment(horizontal='center', vertical='center')
+        c.border = thin_border()
+    ws.row_dimensions[1].height = 18
+
+    # Summary note
+    unique_pairs = len(set((r['Name'], r['Size (KB)']) for r in dup_rows))
+    ws.merge_cells('A2:D2')
+    note = ws['A2']
+    note.value = (f'{len(dup_rows)} duplicate instances found '
+                  f'({unique_pairs} unique file names/sizes appearing in multiple folders)')
+    note.fill = PINK
+    note.font = BLACK_BOLD
+    note.alignment = Alignment(horizontal='left', vertical='center', indent=1)
+    ws.row_dimensions[2].height = 16
+
+    sorted_dups = sorted(dup_rows, key=lambda r: (r['Name'], r['Size (KB)']))
+    for i, row in enumerate(sorted_dups, 1):
+        r_num = i + 2
+        ext = row.get('Extension', '').lstrip('.').upper() or '—'
+        size = row.get('Size (KB)', '')
+        if size and size != 'N/A':
+            kb = float(size)
+            size = f'{kb/1024:.1f} MB' if kb >= 1024 else f'{kb:.0f} KB'
+
+        row_fill = LTGRAY if i % 2 == 1 else PatternFill()
+        vals = [row['Name'], ext, size, row.get('Folder', '')]
+        for col, val in enumerate(vals, 1):
+            c = ws.cell(row=r_num, column=col, value=val)
+            c.fill = row_fill
+            c.border = thin_border()
+            c.alignment = Alignment(
+                horizontal='left' if col in (1, 4) else 'center',
+                vertical='center',
+                wrap_text=(col in (1, 4)),
+            )
+        ws.row_dimensions[r_num].height = 15
+
+
 def write_report(case_root, sections, rows, output_file=None, case_name_override=None, date_received_override=None):
     from io import BytesIO
     wb = Workbook()
@@ -168,12 +226,22 @@ def write_report(case_root, sections, rows, output_file=None, case_name_override
 
     # ── Sections ─────────────────────────────────────────────────────────────
     for section_name, section_rows in sorted(sections.items()):
+        # Find folder URL from the first file sitting directly in this section
+        section_folder_url = next(
+            (r.get('Folder URL', '') for r in section_rows if r.get('_subsection', '') == ''),
+            ''
+        )
+
         # Section header
         ws.merge_cells(f'A{current_row}:G{current_row}')
         c = ws[f'A{current_row}']
         c.value = section_name
         c.fill = GREEN
-        c.font = Font(bold=True, color='FFFFFF', size=11)
+        if section_folder_url:
+            c.hyperlink = section_folder_url
+            c.font = Font(bold=True, color='FFFFFF', size=11, underline='single')
+        else:
+            c.font = Font(bold=True, color='FFFFFF', size=11)
         c.alignment = Alignment(horizontal='left', vertical='center', indent=1)
         ws.row_dimensions[current_row].height = 22
         current_row += 1
@@ -237,6 +305,11 @@ def write_report(case_root, sections, rows, output_file=None, case_name_override
                         vertical='center',
                         wrap_text=(col == 2)
                     )
+                    if col == 2:
+                        file_url = row.get('File URL', '')
+                        if file_url:
+                            c.hyperlink = file_url
+                            c.font = Font(color='1565C0', underline='single')
                 ws.row_dimensions[current_row].height = 15
                 item_num += 1
                 current_row += 1
@@ -261,6 +334,8 @@ def write_report(case_root, sections, rows, output_file=None, case_name_override
 
         ws.row_dimensions[current_row].height = 16
         current_row += 2   # blank row between sections
+
+    write_duplicates_sheet(wb, rows)
 
     if output_file is None:
         buf = BytesIO()
