@@ -170,7 +170,7 @@ and a description, and groups them into a tree of categories.
 - `name`: A unique name for the operation.
 - `type`: Must be set to "cluster".
 - `embedding_keys`: A list of keys to use for the embedding that is clustered on
-- `summary_prompt`: The prompt used to summarize a cluster based on its children. Access input variables by iterating over `inputs` with `{% for input in inputs %}` and accessing properties with `{{input.keyname}}`.
+- `summary_prompt`: The prompt used to summarize a cluster based on its children. Access input variables by iterating over `inputs` with `{% raw %}{% for input in inputs %}{% endraw %}` and accessing properties with `{% raw %}{{input.keyname}}{% endraw %}`.
 - `summary_schema`: The schema for the summary of each cluster. This is the output schema for the `summary_prompt` based llm call.
 
 ## Optional Parameters
