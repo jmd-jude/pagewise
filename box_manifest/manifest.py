@@ -30,8 +30,8 @@ import fitz  # pymupdf
 from boxsdk import OAuth2, Client
 
 # --- CONFIGURE THESE ---
-DEV_TOKEN = 'NQs2f3HvXJOYRo9FhDW18PBzE0WQN4uc'
-MASTER_FOLDER_ID = '368031337788'
+DEV_TOKEN = 'rDCBcClmnxgjWe4nkHCICT1AZLn7e977'
+MASTER_FOLDER_ID = '365775634866'
 # -----------------------
 
 REQUEST_DELAY = 0.03  # seconds between API calls — increase if rate limited

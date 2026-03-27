@@ -2,8 +2,7 @@
 Box Manifest → Formatted Case Report (Excel)
 
 Reads box_manifest.csv and generates a formatted Excel report
-organized by plaintiff / top-level folder, similar to the
-manually-produced Apara v. Catalyst Nightclub style report.
+organized by plaintiff / top-level folder.
 
 Usage:
     python report.py
@@ -179,14 +178,17 @@ def write_report(case_root, sections, rows, output_file=None, case_name_override
     ws = wb.active
     ws.title = 'Case Report'
 
-    # Column widths
-    ws.column_dimensions['A'].width = 6    # #
-    ws.column_dimensions['B'].width = 55   # File Name
-    ws.column_dimensions['C'].width = 10   # File Type
-    ws.column_dimensions['D'].width = 14   # Total Pages
-    ws.column_dimensions['E'].width = 16   # Document Date
-    ws.column_dimensions['F'].width = 12   # Size
-    ws.column_dimensions['G'].width = 30   # Notes
+    # Column widths — file name column sized to data, capped at 120
+    max_name_len = max((len(r['Name']) for r in rows), default=40)
+    name_col_width = min(max(max_name_len + 4, 30), 120)
+
+    ws.column_dimensions['A'].width = 6             # #
+    ws.column_dimensions['B'].width = name_col_width # File Name
+    ws.column_dimensions['C'].width = 10            # File Type
+    ws.column_dimensions['D'].width = 14            # Total Pages
+    ws.column_dimensions['E'].width = 16            # Document Date
+    ws.column_dimensions['F'].width = 12            # Size
+    ws.column_dimensions['G'].width = 30            # Notes
 
     case_name = case_name_override or CASE_NAME or case_root.upper()
     date_recv  = date_received_override if date_received_override is not None else DATE_RECEIVED
@@ -270,11 +272,16 @@ def write_report(case_root, sections, rows, output_file=None, case_name_override
             # Subsection header — only shown when there are multiple subsections
             if has_subsections:
                 display = sub_name if sub_name else '(root)'
+                sub_folder_url = sub_rows[0].get('Folder URL', '') if sub_rows else ''
                 ws.merge_cells(f'A{current_row}:G{current_row}')
                 c = ws[f'A{current_row}']
                 c.value = f'  {display}'
                 c.fill = SUBHEAD
-                c.font = Font(bold=True, color='1B5E20', size=10)
+                if sub_folder_url:
+                    c.hyperlink = sub_folder_url
+                    c.font = Font(bold=True, color='1B5E20', size=10, underline='single')
+                else:
+                    c.font = Font(bold=True, color='1B5E20', size=10)
                 c.alignment = Alignment(horizontal='left', vertical='center', indent=2)
                 ws.row_dimensions[current_row].height = 16
                 current_row += 1
@@ -310,7 +317,8 @@ def write_report(case_root, sections, rows, output_file=None, case_name_override
                         if file_url:
                             c.hyperlink = file_url
                             c.font = Font(color='1565C0', underline='single')
-                ws.row_dimensions[current_row].height = 15
+                lines = max(1, -(-len(row['Name']) // name_col_width))  # ceiling div
+                ws.row_dimensions[current_row].height = max(15, lines * 14)
                 item_num += 1
                 current_row += 1
 
